@@ -5,7 +5,11 @@ export const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/cadastrar-dieta" element={<Dieta />} />
+        <Route path="/usuarios/login" element={<p>Login page</p>}/>
+        <Route path="/" element={<p>Layout</p>}>
+          <Route index element={<p>Página inicial</p>}/>
+          <Route path="/cadastrar-dieta" element={<Dieta />} />
+        </Route>
         <Route path="*" element={<p>Página não existe</p>} />
       </Routes>
     </Router>
