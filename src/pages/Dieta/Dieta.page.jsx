@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth.context'
 
+import { LocalStorageService } from '../../services/LocalStorage.service';
+
 export const Dieta = () => {
 
   const { auth, setAuth } = useContext(AuthContext)
@@ -28,11 +30,12 @@ export const Dieta = () => {
       .then((res) => {
         setAuth({
           user: 'Admin',    // TRAZER NO LOGIN - VER SE ALTERA A ESTRUTURA DO ENDPOINT
-          token: `${res.data.data}`,
           isLogged: true,
         });
+        console.log(res.data.data)
+        LocalStorageService.set('token', `${res.data.data}`)
+
         setUsuario(initialUsuario)
-        console.log(auth)
       })
       .catch(function (error) {
         console.log(error);
@@ -47,9 +50,10 @@ export const Dieta = () => {
 
     const sumbitDieta = (e) => {
       e.preventDefault()
+      console.log(LocalStorageService.get('token'))
       axios.post('http://localhost:3333/api/dietas', dieta, {
         headers: {
-          'Authorization': `${auth.token}`
+          'Authorization': LocalStorageService.get('token')
         }
       })
       .then((res) => {

@@ -6,7 +6,7 @@ export const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/usuarios/login" element={<p>Login page</p>}/>
-        <Route path="/" element={<p>Layout</p>}>
+        <Route path="/">  {/*REMOVI POIS NÃO ESTAVA ENTRANDO NO ENDPOINT ->>> element={<p>Layout</p>}>*/}
           <Route index element={<p>Página inicial</p>}/>
           <Route path="/cadastrar-dieta" element={<Dieta />} />
         </Route>
