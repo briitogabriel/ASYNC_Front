@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useState, useContext } from 'react';
-import { AuthContext } from '../../contexts/auth.context'
+import { AuthContext } from '../../contexts/auth.context';
+import { v4 as uuidv4 } from 'uuid';
+import { UserService } from "../../services/Usuario.service";
 
-export const CadastroUsuario = () => {
 
-  const { auth, setAuth } = useContext(AuthContext)
-
+const CadastroUsuario = () => {
   const [nome, setNome] = useState("");
   const [genero, setGenero] = useState("");
   const [cpf, setCpf] = useState("");
@@ -18,9 +18,10 @@ export const CadastroUsuario = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Falta validar campos do formulário
+    const id = uuidv4();
 
     const data = {
+      id,
       nome,
       genero,
       cpf,
@@ -30,18 +31,17 @@ export const CadastroUsuario = () => {
       tipo,
     };
 
-    axios.post("/cadastrar-usuario", data) // Falta validar a rota de criação
-      .then((response) => {
-        const result = response.data;
-        if (result.success) {
-          setMensagem(result.message);
-        } else {
-          setMensagem(`Erro: ${result.message}`);
-        }
-      })
-      .catch((error) => {
-        setMensagem(`Erro: ${error.message}`);
-      });
+    UserService.createUser(data);
+
+    setMensagem("Usuário cadastrado com sucesso!");
+
+    setNome("");
+    setGenero("");
+    setCpf("");
+    setTelefone("");
+    setEmail("");
+    setSenha("");
+    setTipo("");
   };
 
   return (
@@ -135,5 +135,6 @@ export const CadastroUsuario = () => {
       <p>{mensagem}</p>
     </div>
   );
-}
+};
+
 export default CadastroUsuario;
