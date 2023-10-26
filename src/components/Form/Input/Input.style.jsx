@@ -74,3 +74,9 @@ export const Select = styled.select`
         border: 1px solid ${({$color}) => {return $color === 'danger' ? '#BE2E2E' : '#159976'}};
     }
 `
+
+export const ErrorMessage = styled.div`
+    align-self: flex-start;
+    color: #BE2E2E;
+    font-size: 0.8rem;
+`
