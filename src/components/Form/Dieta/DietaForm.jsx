@@ -42,7 +42,10 @@ export const DietaForm = ({pacienteId}) => {
           type="text"
           register={{
             ...register("die_nome", {
-              required: true,
+              required: {
+                value: true,
+                message: "O campo é obrigatório"
+              },
               minLength: {
                 value: 5,
                 message: "O nome deve ter pelo menos 5 caracteres",
@@ -62,7 +65,10 @@ export const DietaForm = ({pacienteId}) => {
             type="date"
             register={{
               ...register("die_data", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_data}
@@ -73,7 +79,10 @@ export const DietaForm = ({pacienteId}) => {
             type="time"
             register={{
               ...register("die_hora", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_hora}
@@ -85,7 +94,10 @@ export const DietaForm = ({pacienteId}) => {
             options={dietas}
             register={{
               ...register("die_tipo", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_tipo}
@@ -98,7 +110,10 @@ export const DietaForm = ({pacienteId}) => {
             type="textarea"
             register={{
               ...register("die_descricao", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
                 minLength: {
                   value: 10,
                   message: "A descrição deve ter pelo menos 10 caracteres",

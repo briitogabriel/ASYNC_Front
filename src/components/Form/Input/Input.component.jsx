@@ -22,6 +22,7 @@ export const InputComponent = ({
     setShowPassword(!showPassword);
   };
 
+  console.log(error)
   return (
     <Styled.InputGroup>
       <Styled.Label $color={error && "danger"} htmlFor={id}>
@@ -92,6 +93,7 @@ export const InputComponent = ({
           ))}
         </Styled.Select>
       )}
+      {error && <Styled.ErrorMessage>{error.message}</Styled.ErrorMessage>}
     </Styled.InputGroup>
   );
 };
