@@ -16,9 +16,12 @@ const criarDieta = (dieta) => {
   });
 };
 
-// SOMENTE MOCK DE PACIENTES NO SERVICE DE DIETAS -> APAGAR DEPOIS
 const buscarPacientes = () => {
-  return axios.get('http://localhost:3333/api/dietas/pacientes')
+  return axios.get('http://localhost:3333/api/pacientes', {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
   .then((res) => {
     return res.data
   })
