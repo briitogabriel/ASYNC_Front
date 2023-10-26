@@ -22,7 +22,6 @@ export const InputComponent = ({
     setShowPassword(!showPassword);
   };
 
-  console.log(error)
   return (
     <Styled.InputGroup>
       <Styled.Label $color={error && "danger"} htmlFor={id}>
