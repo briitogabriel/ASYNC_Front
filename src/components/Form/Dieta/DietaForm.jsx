@@ -5,7 +5,7 @@ import * as Styled from "./DietaForm.style";
 
 import { DietaService } from "../../../services/Dieta.service";
 
-export const DietaForm = ({paciente}) => {
+export const DietaForm = ({pacienteId}) => {
   const dietas = [
     { value: 'Low Carb', label: 'Low Carb' },
     { value: 'Dash', label: 'Dash' },
@@ -24,7 +24,7 @@ export const DietaForm = ({paciente}) => {
   } = useForm();
 
   const submitForm = async (data) => {
-    data.pac_id = paciente.id;
+    data.pac_id = pacienteId;
     const dietaCadastrada = await DietaService.criarDieta(data);
     console.log(dietaCadastrada);
     dietaCadastrada ? alert('Dieta Cadastrada com Sucesso!') : alert('Erro')
