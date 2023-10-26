@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../Input/Input.component";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Styled from "./DietaForm.style";
 
 import { DietaService } from "../../../services/Dieta.service";
 
 export const DietaForm = ({pacienteId}) => {
+  const navigate = useNavigate();
+
   const dietas = [
     { value: 'Low Carb', label: 'Low Carb' },
     { value: 'Dash', label: 'Dash' },
@@ -29,6 +31,7 @@ export const DietaForm = ({pacienteId}) => {
     console.log(dietaCadastrada);
     dietaCadastrada ? alert('Dieta Cadastrada com Sucesso!') : alert('Erro')
     reset();
+    navigate(`/prontuario-paciente/${pacienteId}`)
   };
 
   return (
