@@ -1,102 +1,59 @@
-import axios from 'axios';
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../contexts/auth.context'
+import DietaForm from "../../components/Form/Dieta/DietaForm";
+import { DietaService } from "../../services/Dieta.service";
+import * as Styled from './Dieta.style';
 
-import { LocalStorageService } from '../../services/LocalStorage.service';
+import { useEffect, useState } from "react";
 
-export const Dieta = () => {
+export const DietaPage = () => {
 
-  const { auth, setAuth } = useContext(AuthContext)
+  const [pacientes, setPacientes] = useState([]);
+  const [pacienteSelecionado, setPacienteSelecionado] = useState('');
+  const [idSelecionado, setIdSelecionado] = useState(0);
 
-  let initialUsuario = {
-    email: "admin@asynclab.com",
-	  senha: "admin123"
+  useEffect(() => {
+    const buscarPacientes = async () => {
+      const dados = await DietaService.buscarPacientes();
+      if (dados) {
+        setPacientes(dados);
+      }
+    };
+
+    buscarPacientes();
+  }, [])
+
+  const handleChange = ({ target }) => {
+    setPacienteSelecionado(target.value)
+    let dadosPaciente = pacientes.find(paciente => (paciente.pac_nome === target.value))
+    dadosPaciente ? setIdSelecionado(dadosPaciente.pac_id) : setIdSelecionado(-1)
   }
-  let initialDieta = {
-    die_nome: "Dieta da lua",
-    die_data: "2023-10-01",
-    die_hora: "00:00:00",
-    die_tipo: "Low Carb",
-    die_descricao: "Come tudo menos a lua",
-    pac_id: 1   // TRAZER DE FORMA DINÂMICA NO FRONT VIA INPUT
-  }
-    const inputStyle = {border: "1px solid black", height: 75, "padding": 10}
-    const [dieta, setDieta] = useState(initialDieta)
-    const [usuario, setUsuario] = useState(initialUsuario)
 
-    const sumbitUsuario = (e) => {
-      e.preventDefault()
-      axios.post('http://localhost:3333/api/usuarios/login', usuario)
-      .then((res) => {
-        setAuth({
-          user: 'Admin',    // TRAZER NO LOGIN - VER SE ALTERA A ESTRUTURA DO ENDPOINT
-          isLogged: true,
-        });
-        console.log(res.data.data)
-        LocalStorageService.set('token', `${res.data.data}`)
-
-        setUsuario(initialUsuario)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }
-    const onChangeHandler = (event) => {
-      const {name, value} = event
-        setUsuario((prev) => {
-          return {...prev, [name]: value}
-        })
-    }
-
-    const sumbitDieta = (e) => {
-      e.preventDefault()
-      console.log(LocalStorageService.get('token'))
-      axios.post('http://localhost:3333/api/dietas', dieta, {
-        headers: {
-          'Authorization': LocalStorageService.get('token')
-        }
-      })
-      .then((res) => {
-        setDieta(initialDieta)
-        console.log(res.data)
-      })
-      .catch(function (error) {
-        console.log(error.response.data);
-      });
-    }
-    const onChangeDieta = (event) => {
-      const {name, value} = event
-        setDieta((prev) => {
-          return {...prev, [name]: value}
-        })
-    }
-
-      return(
+    return (
         <>
-          <form onSubmit={sumbitUsuario}>
-            <table style={inputStyle}>
-              <tbody>
-                <tr><td>Email:</td><td><input type="text" name="email" value={usuario.email} onChange={(e) => onChangeHandler(e.target)}/></td></tr>
-                <tr><td>Senha:</td><td><input type="text" name="senha" value={usuario.senha} onChange={(e) => onChangeHandler(e.target)}/></td></tr>
-                <tr><td ><button type="submit">Submit</button></td></tr>
-              </tbody>
-            </table>
-          </form>
-
-          <form onSubmit={sumbitDieta}>
-            <table style={inputStyle}>
-              <tbody>
-                <tr><td>Nome:</td><td><input type="text" name="die_nome" value={dieta.die_nome} onChange={(e) => onChangeDieta(e.target)}/></td></tr>
-                <tr><td>Data:</td><td><input type="date" name="die_data" value={dieta.die_data} onChange={(e) => onChangeDieta(e.target)}/></td></tr>
-                <tr><td>Hora:</td><td><input type="time" name="die_hora" value={dieta.die_hora} onChange={(e) => onChangeDieta(e.target)}/></td></tr>
-                <tr><td>Tipo:</td><td><input type="text" name="die_tipo" value={dieta.die_tipo} onChange={(e) => onChangeDieta(e.target)}/></td></tr>
-                <tr><td>Descrição:</td><td><input type="text" name="die_descricao" value={dieta.die_descricao} onChange={(e) => onChangeDieta(e.target)}/></td></tr>
-                <tr><td ><button type="submit">Submit</button></td></tr>
-              </tbody>
-            </table>
-          </form>
-        
+          <Styled.DietaPage>
+            <Styled.Title>Selecione um Paciente para cadastrar a Dieta</Styled.Title>
+            {pacientes.length > 0 ? (
+              <>
+                <Styled.Select list="pacientes" value={pacienteSelecionado} onChange={(e) => handleChange(e)} />
+                <datalist id="pacientes">
+                  {pacientes.map((paciente) => (
+                    <option key={paciente.pac_id} value={paciente.pac_nome} />
+                  ))}
+                </datalist>
+              </>
+            ) : (
+              <p>Nenhum paciente encontrado</p>
+            )}
+            {idSelecionado === 0 ? (
+              <Styled.Title>Nenhum paciente selecionado</Styled.Title>
+            ) : idSelecionado === -1 ? (
+              <Styled.Title>Paciente "{pacienteSelecionado}" não encontrado</Styled.Title>
+            ) : (
+              <>
+                <Styled.Title>Preencha os campos da Dieta para o Paciente "{pacienteSelecionado}"</Styled.Title>
+                <DietaForm pacienteId={idSelecionado}/>
+              </>
+            )}
+          </Styled.DietaPage>
         </>
-      )
-   }
-export default Dieta;
+    )
+}
