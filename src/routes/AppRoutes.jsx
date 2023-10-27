@@ -1,27 +1,59 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, {useState} from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
+import Login from '../pages/Login/Login';
 import Usuario from "../pages/Usuario/Usuario.page";
 import Prontuarios from '../pages/Prontuarios/Prontuarios.page.jsx';
 import { ToastProvider } from '../contexts/ToastContext';
+import Toolbar from '../components/Toolbar/Toolbar';
 import Message from '../components/Message/Message';
 import SideMenu from '../components/SideMenu/SideMenu';
+import Content from '../components/Content/Content';
 
 export const AppRoutes = () => {
+
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const estaLogado = () => true;
+
+  const onToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <ToastProvider>
-      <Message />
-      <Router>
-        <SideMenu />
-        <Routes>
-          <Route path="/usuarios/login" element={<p>Login page</p>} />
-          <Route path="/"> 
-            <Route path="/cadastrar-dieta" element={<DietaPage />} />
-            <Route path="/cadastrar-usuario" element={<Usuario />} />
-            <Route path="/prontuarios" element={<Prontuarios />} />
-          </Route>
-          <Route path="*" element={<p>Página não existe</p>} />
-        </Routes>
-      </Router>
+  <ToastProvider>
+      <div className="container">
+        <Toolbar />
+        <Message />
+        {!isLoginPage && estaLogado() && (
+          <div className="row">
+            <div className={isMenuOpen ? "col-md-3" : "col-md-1"}>
+              <SideMenu isMenuOpen={isMenuOpen} onToggleMenu={onToggleMenu} />
+            </div>
+            <div className={isMenuOpen ? "col-md-9" : "col-md-11"}>
+              <Content>
+                <Routes>
+                  <Route path="/usuarios/login" element={<p>Login page</p>} />
+                  <Route path="/">
+                    <Route path="/cadastrar-dieta" element={<DietaPage />} />
+                    <Route path="/cadastrar-usuario" element={<Usuario />} />
+                    <Route path="/prontuarios" element={<Prontuarios />} />
+                  </Route>
+                  <Route path="*" element={<p>Página não existe</p>} />
+                </Routes>
+              </Content>
+            </div>
+          </div>
+        )}
+        {(isLoginPage || !estaLogado()) && (
+          <div className="row">
+            <div className="col-md-12">
+              <Login />
+            </div>
+          </div>
+        )}
+      </div>
     </ToastProvider>
   );
 };
