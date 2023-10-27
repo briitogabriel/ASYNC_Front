@@ -1,5 +1,5 @@
 import DietaForm from "../../components/Form/Dieta/DietaForm";
-import { DietaService } from "../../services/Dieta.service";
+import { PacienteService } from "../../services/Paciente.service";
 import * as Styled from './Dieta.style';
 
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ export const DietaPage = () => {
 
   useEffect(() => {
     const buscarPacientes = async () => {
-      const dados = await DietaService.buscarPacientes();
+      const dados = await PacienteService.buscarPacientes();
       if (dados) {
         setPacientes(dados);
       }
