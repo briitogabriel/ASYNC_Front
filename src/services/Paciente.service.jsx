@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
-const criarDieta = (dieta) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas`, dieta, {
+const buscarPacientes = () => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -16,6 +16,6 @@ const criarDieta = (dieta) => {
   });
 };
 
-export const DietaService = {
-  criarDieta,
+export const PacienteService = {
+  buscarPacientes,
 };
