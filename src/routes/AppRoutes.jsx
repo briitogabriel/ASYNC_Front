@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
+import Exames from '../pages/Exames/Exames';
 import Usuario from "../pages/Usuario/Usuario.page";
 import Prontuarios from '../pages/Prontuarios/Prontuarios.page.jsx';
 import { ToastProvider } from '../contexts/ToastContext';
@@ -41,6 +42,7 @@ export const AppRoutes = () => {
                     <Route path="/cadastrar-dieta" element={<DietaPage />} />
                     <Route path="/cadastrar-usuario" element={<Usuario />} />
                     <Route path="/prontuarios" element={<Prontuarios />} />
+                    <Route path="/exames" element={<Exames />} />
                   </Route>
                   <Route path="*" element={<p>Página não existe</p>} />
                 </Routes>

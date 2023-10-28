@@ -30,6 +30,9 @@ const SideMenu = ({isMenuOpen, onToggleMenu}) => {
           <Link to="/prontuarios" className="btn btn-primary btn-light side-menu__button"><i className="bi bi-journals"></i> Listar Prontuário</Link>
         </li>
         <li className="nav-item">
+          <Link to="/exames" className="btn btn-primary btn-light side-menu__button"><i className="bi bi-journals"></i> Listar Exames</Link>
+        </li>
+        <li className="nav-item">
           <Link to="/cadastrar-usuario" className="btn btn-primary btn-light side-menu__button"><i className="bi bi-journals"></i> Cadastrar Usuários</Link>
         </li>
         <li className="nav-item">
