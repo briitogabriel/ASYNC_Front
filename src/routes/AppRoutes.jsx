@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login';
+import Home from '../pages/Home/Home';
 import Usuario from "../pages/Usuario/Usuario.page";
 import Prontuarios from '../pages/Prontuarios/Prontuarios.page.jsx';
 import { ToastProvider } from '../contexts/ToastContext';
@@ -34,6 +35,7 @@ export const AppRoutes = () => {
             <div className={isMenuOpen ? "col-md-9" : "col-md-11"}>
               <Content>
                 <Routes>
+                  <Route path="/home" element={<Home />} />
                   <Route path="/usuarios/login" element={<p>Login page</p>} />
                   <Route path="/">
                     <Route path="/cadastrar-dieta" element={<DietaPage />} />
