@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useToast } from '../../contexts/ToastContext';
 import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
 import useConfirmation from '../../hooks/useConfirmation';
+import { PacienteService } from '../../services/Paciente.service';
+import { ExameService } from '../../services/Exames.service';
 
 
 const Exames = () => {
@@ -15,19 +17,15 @@ const Exames = () => {
 
     const [pacienteData, setPacienteData] = useState({});
     const [exameData, setExameData] = useState({
-        dataExame: getFormattedDate(),
-        horarioExame: getFormattedTime(),
+        exa_data: getFormattedDate(),
+        exa_hora: getFormattedTime(),
     });
 
     useEffect(() => {
         const fetchPacienteData = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/pacientes/${idPaciente}`);
-                if (!response.ok) {
-                    throw new Error('Falha ao buscar os dados do paciente');
-                }
-                const data = await response.json();
-                setPacienteData(data);
+                const paciente = await PacienteService.detalharPaciente(idPaciente);
+                setPacienteData(paciente);
             } catch (error) {
                 console.error(error);
             }
@@ -40,13 +38,10 @@ const Exames = () => {
     useEffect(() => {
         const fetchExameData = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/exames/${id}`);
-                if (!response.ok) {
-                    throw new Error('Falha ao buscar os dados do exame');
-                }
-                const data = await response.json();
-                setExameData(data);
+                const exame = await ExameService.detalharExame(id);
+                setExameData(exame);
             } catch (error) {
+                showToast('Falha ao buscar exame do paciente!');
                 console.error(error);
             }
         };
@@ -61,7 +56,7 @@ const Exames = () => {
     };
 
     const validateForm = () => {
-        if (exameData.resultado.length < 15 || exameData.resultado.length > 1000) {
+        if (exameData.exa_resultados.length <= 15 || exameData.exa_resultados.length > 1000) {
             showToast('O Resultado do Exame deve conter entre 15 e 1000 caracteres.');
             return false;
         }
@@ -78,25 +73,15 @@ const Exames = () => {
 
             const exameDataCopy = { ...exameData };
             exameDataCopy.id = uuidv4();
-            exameDataCopy.dataCadastro = getFormattedDate();
-            exameDataCopy.idPaciente = pacienteData.id;
-            exameDataCopy.nomeCompleto = pacienteData.nomeCompleto;
+            exameDataCopy.exa_data = getFormattedDate();
+            exameDataCopy.pac_id = pacienteData.pac_id;
 
-            const response = await fetch(`http://localhost:4000/exames`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(exameDataCopy),
-            });
+            await ExameService.salvarExame(JSON.stringify(exameDataCopy));
 
-            if (!response.ok) {
-                showToast('Falha ao cadastrar exame do paciente!');
-            }
-
-            showToast(`Exame do paciente "${pacienteData.nomeCompleto}" cadastrada com sucesso!`);
-            navigate(`/prontuarios/${pacienteData.id}`);
+            showToast(`Exame do paciente "${pacienteData.pac_nome}" cadastrado com sucesso!`);
+            navigate(`/prontuarios/${pacienteData.pac_id}`);
         } catch (error) {
+            showToast('Falha ao salvar exame do paciente!');
             console.error(error);
         }
     }
@@ -113,25 +98,16 @@ const Exames = () => {
             }
             
             const exameDataCopy = { ...exameData };
-            exameDataCopy.idPaciente = idPaciente;
-            exameDataCopy.dataCadastro = getFormattedDate();
-            exameDataCopy.nomeCompleto = pacienteData.nomeCompleto;
+            exameDataCopy.pac_id = idPaciente;
+            exameDataCopy.exa_data = getFormattedDate();
 
-            const response = await fetch(`http://localhost:4000/exames/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(exameDataCopy),
-            });
+            await ExameService.atualizarExame(exameDataCopy);
 
-            if (!response.ok) {
-                showToast('Falha ao atualizar exame do paciente!');
-            }
-            showToast(`Exame do paciente "${pacienteData.nomeCompleto}" atualizada com sucesso!`);
+            showToast(`Exame do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
             navigate('/home');
         } catch (error) {
             console.error(error);
+            showToast('Falha ao atualizar exame do paciente!');
         }
     }
 
@@ -140,15 +116,8 @@ const Exames = () => {
         showConfirm('Deseja realmente excluir este exame?', async () => {
             try {
 
-                const response = await fetch(`http://localhost:4000/exames/${id}`, {
-                    method: 'DELETE'
-                });
-
-                if (!response.ok) {
-                    showToast('Falha ao deletar os dados do paciente!');
-                }
-
-                showToast(`Exame do paciente "${pacienteData.nomeCompleto}" deletado com sucesso!`);
+                await ExameService.deletarExame(id);
+                showToast(`Exame do paciente "${pacienteData.pac_nome}" deletado com sucesso!`);
                 navigate('/home');
             } catch (error) {
                 showToast('Falha ao deletar o exame do paciente!');
@@ -182,10 +151,10 @@ const Exames = () => {
 
                     </div>
 
-                    {pacienteData && pacienteData.id && (
+                    {pacienteData && pacienteData.pac_id && (
                         <form className="mt-5" onSubmit={handleSubmit}>
                             <div className="d-flex justify-content-between align-items-center mb-3">
-                                <span className="text-blue fw-bold fs-4">Exame para: {pacienteData && pacienteData.nomeCompleto}</span>
+                                <span className="text-blue fw-bold fs-4">Exame para: {pacienteData && pacienteData.pac_nome}</span>
                                 <div className="d-flex">
                                     {id && (
                                         <>
@@ -207,39 +176,39 @@ const Exames = () => {
                             </div>
                             <div className="row mb-3">
                                 <div className="col-md-4">
-                                    <label htmlFor="nomeExame" className="form-label">Nome do exame:</label>
+                                    <label htmlFor="exa_nome" className="form-label">Nome do exame:</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="nomeExame"
-                                        name="nomeExame"
+                                        id="exa_nome"
+                                        name="exa_nome"
                                         required
                                         minLength="6"
                                         maxLength="60"
-                                        value={exameData.nomeExame}
+                                        value={exameData.exa_nome}
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div className="col-md-4">
-                                    <label htmlFor="dataExame" className="form-label">Data do exame:</label>
+                                    <label htmlFor="exa_data" className="form-label">Data do exame:</label>
                                     <input
                                         type="date"
                                         className="form-control"
-                                        id="dataExame"
-                                        name="dataExame"
-                                        value={exameData.dataExame}
+                                        id="exa_data"
+                                        name="exa_data"
+                                        value={exameData.exa_data}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="col-md-4">
-                                    <label htmlFor="horarioExame" className="form-label">Horário do exame:</label>
+                                    <label htmlFor="exa_hora" className="form-label">Horário do exame:</label>
                                     <input
                                         type="time"
                                         className="form-control"
-                                        id="horarioExame"
-                                        name="horarioExame"
-                                        value={exameData.horarioExame}
+                                        id="exa_hora"
+                                        name="exa_hora"
+                                        value={exameData.exa_hora}
                                         onChange={handleChange}
                                         required
                                     />
@@ -248,13 +217,13 @@ const Exames = () => {
                             <div className="row mb-3">
 
                                 <div className="col-md-8 mb-3">
-                                    <label htmlFor="tipoExame" className="form-label">Tipo do Exame</label>
+                                    <label htmlFor="exa_tipo" className="form-label">Tipo do Exame</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="tipoExame"
-                                        name="tipoExame"
-                                        value={exameData.tipoExame}
+                                        id="exa_tipo"
+                                        name="exa_tipo"
+                                        value={exameData.exa_tipo}
                                         onChange={handleChange}
                                         required
                                         minLength="5"
@@ -262,13 +231,13 @@ const Exames = () => {
                                     />
                                 </div>
                                 <div className="col-md-4 mb-3">
-                                    <label htmlFor="laboratorio" className="form-label">Laboratório</label>
+                                    <label htmlFor="exa_laboratorio" className="form-label">Laboratório</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="laboratorio"
-                                        name="laboratorio"
-                                        value={exameData.laboratorio}
+                                        id="exa_laboratorio"
+                                        name="exa_laboratorio"
+                                        value={exameData.exa_laboratorio}
                                         onChange={handleChange}
                                         required
                                         minLength="5"
@@ -280,13 +249,13 @@ const Exames = () => {
 
                             <div className="row mb-3">
                                 <div className="col-md-12">
-                                    <label htmlFor="urlDocumento" className="form-label">URL do documento do Exame:</label>
+                                    <label htmlFor="exa_url_documento" className="form-label">URL do documento do Exame:</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="urlDocumento"
-                                        name="urlDocumento"
-                                        value={exameData.urlDocumento}
+                                        id="exa_url_documento"
+                                        name="exa_url_documento"
+                                        value={exameData.exa_url_documento}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -294,16 +263,16 @@ const Exames = () => {
 
                             <div className="row mb-3">
                                 <div className="col-md-12">
-                                    <label htmlFor="resultado" className="form-label">Resultado do Exame:</label>
+                                    <label htmlFor="exa_resultados" className="form-label">Resultado do Exame:</label>
                                     <textarea
                                         className="form-control"
-                                        id="resultado"
-                                        name="resultado"
+                                        id="exa_resultados"
+                                        name="exa_resultados"
                                         required
                                         minLength="15"
                                         maxLength="1000"
                                         rows="10"
-                                        value={exameData.resultado}
+                                        value={exameData.exa_resultados}
                                         onChange={handleChange}
                                     ></textarea>
                                 </div>

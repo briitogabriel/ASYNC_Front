@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useToast } from '../../contexts/ToastContext';
+import { ProntuarioService } from "../../services/Prontuarios.service";
 
 const Prontuarios = () => {
   const [searchText, setSearchText] = useState('');
@@ -10,12 +11,8 @@ const Prontuarios = () => {
   useEffect(() => {
     const fetchPacientes = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/pacientes?q=${searchText}`);
-        if (!response.ok) {
-          throw new Error('Falha ao buscar os prontuários');
-        }
-        const data = await response.json();
-        setPacientes(data);
+        const pacientes = await ProntuarioService.buscarProntuarios(searchText);
+        setPacientes(pacientes);
       } catch (error) {
         console.error(error);
         showToast('Falha ao buscar os prontuários');
@@ -61,21 +58,21 @@ const Prontuarios = () => {
             </div>
           </div>
 
-          {pacientes.slice(0, 7).map((prontuario) => (
-            <div className="card mb-3" key={prontuario.id}>
+          {pacientes && pacientes.slice(0, 7).map((prontuario) => (
+            <div className="card mb-3" key={prontuario.pac_id}>
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-3">
-                    <p className="card-text">{prontuario.id}</p>
+                    <p className="card-text">{prontuario.pac_id}</p>
                   </div>
                   <div className="col-md-5">
-                    <p className="card-text">{prontuario.nomeCompleto}</p>
+                    <p className="card-text">{prontuario.pac_nome}</p>
                   </div>
                   <div className="col-md-3">
-                    <p className="card-text">{prontuario.convenio}</p>
+                    <p className="card-text">{prontuario.pac_convenio}</p>
                   </div>
                   <div className="col-md-1">
-                    <Link to={`/prontuarios/${prontuario.id}`}>
+                    <Link to={`/prontuarios/${prontuario.pac_id}`}>
                       <button className="btn btn-primary">
                         <i className="bi bi-search"></i>
                       </button>

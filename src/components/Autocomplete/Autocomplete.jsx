@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import { ProntuarioService } from "../../services/Prontuarios.service";
 
 const Autocomplete = ({ id, placeholder, onChange }) => {
     const [options, setOptions] = useState([]);
@@ -10,14 +11,10 @@ const Autocomplete = ({ id, placeholder, onChange }) => {
 
         const fetchPacientes = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/pacientes?q=${inputValue}`);
-                if (!response.ok) {
-                    throw new Error("Erro ao buscar os pacientes");
-                }
-                const data = await response.json();
+                const data = await ProntuarioService.buscarProntuarios(inputValue);
                 const options = data.map((value) => ({
-                    id: value.id,
-                    label: value.nomeCompleto,
+                    id: value.pac_id,
+                    label: value.pac_nome,
                 }));
                 setOptions(options);
             } catch (error) {

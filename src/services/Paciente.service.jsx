@@ -16,6 +16,22 @@ const buscarPacientes = () => {
   });
 };
 
+const detalharPaciente = (id) => {
+  return axios.get(`http://localhost:3333/api/pacientes/${id}`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao buscar dados do paciente", error);
+  });
+};
+
 export const PacienteService = {
   buscarPacientes,
+  detalharPaciente,
 };
