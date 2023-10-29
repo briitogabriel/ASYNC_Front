@@ -21,9 +21,8 @@ O objetivo principal é oferecer uma plataforma que simplifique processos de ate
 1. Clone o repositório: `git@github.com:FullStack-Trindade/M3P-FrontEnd-Squad4.git`
 2. Acesse o diretório do projeto: `cd M3P-FrontEnd-Squad4`
 3. Instale as dependências: `npm install`
-4. Inicialize o json-server com o comando: `npx json-server -p 4000 --watch server/db.json` (Usado temporariamente até o desenvolvimento do backend!)
 5. Inicie o projeto com o comando: `npm run dev`
 
 ## Uso
 
-Após a instalação e configuração, acesse a aplicação pelo navegador usando o endereço `http://localhost:5173/login`. Faça o login com as credenciais padrão (e-mail: `mail@mail.com`, senha: `123`)
+Após a instalação e configuração, acesse a aplicação pelo navegador usando o endereço `http://localhost:5173/login`. Faça o login com as credenciais padrão (e-mail: `admin@asynclab.com`, senha: `admin123`)
