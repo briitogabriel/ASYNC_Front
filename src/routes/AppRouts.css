@@ -1,0 +1,6 @@
+@import url('../../node_modules/bootstrap/dist/css/bootstrap.min.css');
+@import '../styles/root.css';
+
+* {
+  font-family: Arial, sans-serif;
+}
