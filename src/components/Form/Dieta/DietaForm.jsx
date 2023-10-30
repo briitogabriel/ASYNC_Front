@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../Input/Input.component";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Styled from "./DietaForm.style";
 
 import { DietaService } from "../../../services/Dieta.service";
 
-export const DietaForm = ({paciente}) => {
+export const DietaForm = ({pacienteId}) => {
+  const navigate = useNavigate();
+
   const dietas = [
     { value: 'Low Carb', label: 'Low Carb' },
     { value: 'Dash', label: 'Dash' },
@@ -24,11 +26,12 @@ export const DietaForm = ({paciente}) => {
   } = useForm();
 
   const submitForm = async (data) => {
-    data.pac_id = paciente.id;
+    data.pac_id = pacienteId;
     const dietaCadastrada = await DietaService.criarDieta(data);
     console.log(dietaCadastrada);
     dietaCadastrada ? alert('Dieta Cadastrada com Sucesso!') : alert('Erro')
     reset();
+    navigate(`/prontuario-paciente/${pacienteId}`)
   };
 
   return (
@@ -42,7 +45,10 @@ export const DietaForm = ({paciente}) => {
           type="text"
           register={{
             ...register("die_nome", {
-              required: true,
+              required: {
+                value: true,
+                message: "O campo é obrigatório"
+              },
               minLength: {
                 value: 5,
                 message: "O nome deve ter pelo menos 5 caracteres",
@@ -62,7 +68,10 @@ export const DietaForm = ({paciente}) => {
             type="date"
             register={{
               ...register("die_data", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_data}
@@ -73,7 +82,10 @@ export const DietaForm = ({paciente}) => {
             type="time"
             register={{
               ...register("die_hora", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_hora}
@@ -85,7 +97,10 @@ export const DietaForm = ({paciente}) => {
             options={dietas}
             register={{
               ...register("die_tipo", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
               }),
             }}
             error={errors.die_tipo}
@@ -98,7 +113,10 @@ export const DietaForm = ({paciente}) => {
             type="textarea"
             register={{
               ...register("die_descricao", {
-                required: true,
+                required: {
+                  value: true,
+                  message: "O campo é obrigatório"
+                },
                 minLength: {
                   value: 10,
                   message: "A descrição deve ter pelo menos 10 caracteres",

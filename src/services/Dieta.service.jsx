@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const criarDieta = (dieta) => {
-  return axios.post('http://localhost:3333/api/dietas', dieta, {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas`, dieta, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }

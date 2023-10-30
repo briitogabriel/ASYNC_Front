@@ -92,6 +92,7 @@ export const InputComponent = ({
           ))}
         </Styled.Select>
       )}
+      {error && <Styled.ErrorMessage>{error.message}</Styled.ErrorMessage>}
     </Styled.InputGroup>
   );
 };
