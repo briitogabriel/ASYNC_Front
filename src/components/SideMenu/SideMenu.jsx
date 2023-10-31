@@ -12,7 +12,7 @@ const SideMenu = ({isMenuOpen, onToggleMenu}) => {
   }
 
   return (
-    <div className={`text-light side-menu`} style={{ height: '100vh' }}>
+    <div className={`text-light side-menu`}>
       <ul className={`nav flex-column ${isMenuOpen ? ' d-md-block' : ' d-none'}`}>
         <li className="nav-menu-title">
           <span> Geral</span>

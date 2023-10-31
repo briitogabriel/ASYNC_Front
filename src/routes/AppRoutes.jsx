@@ -26,7 +26,7 @@ export const AppRoutes = () => {
 
   return (
   <ToastProvider>
-      <div className="container">
+      <div className="container-root">
         <Toolbar />
         <Message />
         {!isLoginPage && estaLogado() && (
