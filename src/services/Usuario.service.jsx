@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from "./LocalStorage.service";
 
 const getUsers = () => {
-  return axios.get(`http://localhost:3333/api/usuarios`, {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -17,7 +17,7 @@ const getUsers = () => {
 };
 
 const createUser = (data) => {
-  return axios.post(`http://localhost:3333/api/usuarios`, data, {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, data, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -32,7 +32,7 @@ const createUser = (data) => {
 };
 
 const getUserById = (usuarioId) => {
-  return axios.get(`http://localhost:3333/api/usuarios/${usuarioId}`, {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -47,7 +47,7 @@ const getUserById = (usuarioId) => {
 };
 
 const deleteUser = (id) => {
-  return axios.delete(`http://localhost:3333/api/usuarios/${usuarioId}`, {
+  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -62,7 +62,7 @@ const deleteUser = (id) => {
 };
 
 const updateUser = (usuarioId, data) => {
-  return axios.put(`http://localhost:3333/api/consultas/${usuarioId}`, data, {
+  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${usuarioId}`, data, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
