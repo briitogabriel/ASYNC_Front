@@ -13,8 +13,9 @@ export const GlobalStyle = createGlobalStyle`
         --bs-gutter-x: 0;
     }
 
-    .container-root {
+    /* .container-root {
         height: 100vh;
         width: 100vw;
         padding-top: 8vh;
-    }
+    } */
+`
