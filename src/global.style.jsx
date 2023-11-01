@@ -9,8 +9,12 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
     }
 
-    html, body, #root {
-        width: 100vw;
-        height: 100vh;
+    .row {
+        --bs-gutter-x: 0;
     }
-`
+
+    .container-root {
+        height: 100vh;
+        width: 100vw;
+        padding-top: 8vh;
+    }

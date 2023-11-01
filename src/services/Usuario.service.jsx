@@ -1,47 +1,87 @@
+import axios from 'axios';
 import { LocalStorageService } from "./LocalStorage.service";
 
 const getUsers = () => {
-  return LocalStorageService.get('users') || [];
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao listar usuários", error);
+  });
 };
 
 const createUser = (data) => {
-  const users = getUsers();
-  data = {
-    id: users.length + 1,
-    ...data
-  };
-  users.push(data);
-  LocalStorageService.set('users', users);
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, data, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error.response.data)
+    return false
+  });
 };
 
-const getUserById = (id) => {
-  return getUsers().find(user => user.id === id);
-};
-
-const getUserByEmail = (email) => {
-  return getUsers().find(user => user.email === email);
+const getUserById = (usuarioId) => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao buscar dados do usuário", error);
+  });
 };
 
 const deleteUser = (id) => {
-  const users = getUsers();
-  const updatedUsers = users.filter(user => user.id !== id);
-  LocalStorageService.set('users', updatedUsers);
+  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao deletar usuário", error);
+  });
 };
 
-const updateUser = (id, data) => {
-  const users = getUsers();
-  const index = users.findIndex(user => user.id === id);
-  if (index !== -1) {
-    users[index] = { ...users[index], ...data };
-    LocalStorageService.set('users', users);
-  }
+const updateUser = (usuarioId, data) => {
+  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${usuarioId}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao atualizar dados do usuário", error);
+  });
 };
 
 export const UserService = {
   getUsers,
   createUser,
   getUserById,
-  getUserByEmail,
   deleteUser,
   updateUser
 };
+

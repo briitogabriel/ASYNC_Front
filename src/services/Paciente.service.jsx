@@ -17,7 +17,7 @@ const buscarPacientes = () => {
 };
 
 const detalharPaciente = (id) => {
-  return axios.get(`http://localhost:3333/api/pacientes/${id}`, {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }

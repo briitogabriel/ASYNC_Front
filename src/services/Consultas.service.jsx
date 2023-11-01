@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const detalharConsulta = (id) => {
-  return axios.get(`http://localhost:3333/api/consultas/${id}`, {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -17,7 +17,7 @@ const detalharConsulta = (id) => {
 };
 
 const salvarConsulta = (consulta) => {  
-  return axios.post(`http://localhost:3333/api/consultas`, consulta, {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas`, consulta, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -33,7 +33,7 @@ const salvarConsulta = (consulta) => {
 };
 
 const atualizarConsulta = (consulta) => {  
-  return axios.put(`http://localhost:3333/api/consultas/${consulta.con_id}`, consulta, {
+  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${consulta.con_id}`, consulta, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -49,7 +49,7 @@ const atualizarConsulta = (consulta) => {
 };
 
 const deletarConsulta = (id) => {
-  return axios.delete(`http://localhost:3333/api/consultas/${id}`, {
+  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -64,7 +64,7 @@ const deletarConsulta = (id) => {
 };
 
 const listarConsultasPorPaciente = (id) => {
-  return axios.get(`http://localhost:3333/api/pacientes/${id}/consultas`, {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}/consultas`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }

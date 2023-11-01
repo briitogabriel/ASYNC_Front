@@ -1,6 +1,10 @@
 .top-menu {
     background-color: #2596be !important;
     color: #FFF;
+    position: fixed !important;
+    width: 100vw;
+    top: 0;
+    z-index: 1;
 
     .top-menu__user{
         color: #FFF;
