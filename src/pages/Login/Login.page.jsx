@@ -3,9 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import Logo from '../../assets/ASYNClab.png';
-// import { UserService } from '../../services/DoctorsServices/UserService';
 import './Login.css'
-// import { AuthService } from '../../services/AuthService';
+// import { useAuth } from '../../contexts/auth.context';
 
 export const Login = () => {
 
@@ -13,10 +12,10 @@ export const Login = () => {
 
   const formSchema = Yup.object().shape({
     email: Yup.string()
-      .required('E-mail is mandatory')
-      .email('Email is invalid'),
+      .required('E-mail é obrigatório')
+      .email('Email inválido'),
     password: Yup.string()
-      .required('Password is mendatory')
+      .required('Senha é obrigatória')
   })
   
   const formOptions = { resolver: yupResolver(formSchema) };
@@ -73,6 +72,7 @@ export const Login = () => {
 
           </div>
 
+          {/* Resetar senha */}
           <div className='bottom-login'>
             <p className="obs">Esqueceu a senha?? <a href="#" className="click"> Crie uma nova aqui!</a></p>
           </div>

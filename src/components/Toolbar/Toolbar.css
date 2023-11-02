@@ -4,8 +4,8 @@
 .container-tool{
   display: flex;
   position: absolute;
-  margin-left: 88%;
-  margin-top: 10px;
+  margin-left: 88% !important;
+  margin-top: 13px;
 }
 
 .name-tool{
