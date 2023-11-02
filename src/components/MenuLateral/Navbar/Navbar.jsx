@@ -5,6 +5,7 @@ import { SidebarData } from '../SidebarData/SidebarData';
 import Close from '../../../assets/fechar.png'
 import Logo from '../../../assets/ASYNClab.png'
 import './Navbar.css';
+import Toolbar from '../../Toolbar/Toolbar.page';
 // import Toolbar from '../../Toolbar/Toolbar';
 // import { AuthService } from '../../../services/AuthService';
 
@@ -27,6 +28,7 @@ function Navbar(){
     <div>
       <div className="navbar">
         <div className='click-menu'>
+          <Toolbar/>
           <img className='click-menu-open' style={{ marginTop: -15, width: 35, height: 35, cursor:'pointer' }} src={Menu} onClick={showSidebar}/>
           <img style={{  width: 250, height: 80, cursor:'pointer' }} src={Logo}/>
         </div>

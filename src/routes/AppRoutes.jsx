@@ -8,22 +8,11 @@ import Usuario from "../pages/Usuario/Usuario.page";
 import DetalhaProntuario from "../pages/DetalhaProntuario/DetalhaProntuario.page";
 import Prontuarios from '../pages/Prontuarios/Prontuarios.page.jsx';
 import { ToastProvider } from '../contexts/ToastContext';
-// import Toolbar from '../components/Toolbar/Toolbar';
-// import Message from '../components/Message/Message';
-// import SideMenu from '../components/SideMenu/SideMenu';
 // import Content from '../components/Content/Content';
 import Navbar from '../components/MenuLateral/Navbar/Navbar.jsx';
+import Toolbar from '../components/Toolbar/Toolbar.page.jsx';
 
 export const AppRoutes = () => {
-
-  const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const estaLogado = () => true;
-
-  const onToggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   return (
   <ToastProvider>
@@ -32,6 +21,7 @@ export const AppRoutes = () => {
         <Route path="/usuarios/login" element={<Login />} />
         <Route path="/">
           <Route path="/lateralmenu" element={<Navbar/>}/>
+          <Route path="/toolbar" element={<Toolbar/>}/>
           <Route path="/cadastrar-dieta" element={<DietaPage />} />
           <Route path="/cadastrar-usuario" element={<Usuario />} />
           <Route path="/prontuarios" element={<Prontuarios />} />
