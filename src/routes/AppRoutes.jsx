@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
+import Dietas from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login.page.jsx';
 import Home from '../pages/Home/Home';
 import Exames from '../pages/Exames/Exames.page.jsx';
@@ -32,7 +32,7 @@ export const AppRoutes = () => {
         <Route path="/usuarios/login" element={<Login />} />
         <Route path="/">
           <Route path="/lateralmenu" element={<Navbar/>}/>
-          <Route path="/cadastrar-dieta" element={<DietaPage />} />
+          <Route path="/cadastrar-dieta" element={<Dietas />} />
           <Route path="/cadastrar-usuario" element={<Usuario />} />
           <Route path="/prontuarios" element={<Prontuarios />} />
           <Route path="/prontuarios/:idPaciente" element={<DetalhaProntuario />} />
