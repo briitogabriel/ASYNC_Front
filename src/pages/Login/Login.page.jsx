@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import Logo from '../../assets/ASYNClab.png';
-// import { UserService } from '../../services/DoctorsServices/UserService';
+import { UserService } from '../../services/Usuario.service';
 import './Login.css'
 // import { AuthService } from '../../services/AuthService';
 
@@ -15,7 +15,7 @@ export const Login = () => {
     email: Yup.string()
       .required('E-mail is mandatory')
       .email('Email is invalid'),
-    password: Yup.string()
+    senha: Yup.string()
       .required('Password is mendatory')
   })
   
@@ -23,19 +23,21 @@ export const Login = () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
-  function onSubmit(data) {
+  const onSubmit = async (data) => {
+    console.log(data)
 
-    const user = UserService.ShowByEmail(data.email);
+    const loginData = await UserService.login(data);
+    console.log(loginData) // RETORNO DO BACKEND
 
-    if(!user){
+    if(!loginData){
       alert('Usuário não cadastrado');
       reset();
       return;
     }
 
-    if(user.password === data.password && user){
-      AuthService.Set(user);
-      navigate('/cadastrar-usuario');
+    if(loginData.success){
+      // AuthService.Set(data);     // IMPLEMENTAR AQUI A LÓGICA PARA JOGAR O "data" COM OS DADOS DE USUÁRIO PARA O AUTHCONTEXT
+      // navigate('/cadastrar-usuario');
       return alert("Bem vindo(a)!")
     } else {
       alert('Usuário não cadastrado');
@@ -63,8 +65,8 @@ export const Login = () => {
 
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Senha</label>
-                <input name="password" type="password" id="exampleInputPassword1" placeholder="********" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`}/>
-                <div className="invalid-feedback">{errors.password?.message}</div>
+                <input name="senha" type="password" id="exampleInputPassword1" placeholder="********" {...register('senha')} className={`form-control ${errors.senha ? 'is-invalid' : ''}`}/>
+                <div className="invalid-feedback">{errors.senha?.message}</div>
               </div>
 
               <button type="submit" className="button"><strong>Entrar</strong></button>
