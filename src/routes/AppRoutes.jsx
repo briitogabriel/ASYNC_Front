@@ -12,6 +12,7 @@ import { ToastProvider } from '../contexts/ToastContext';
 import Navbar from '../components/MenuLateral/Navbar/Navbar.jsx';
 import Toolbar from '../components/Toolbar/Toolbar.page.jsx';
 import { PacientesPage } from '../pages/Pacientes/Pacientes.page.jsx';
+import { MedicamentosPage } from '../pages/Medicamentos/Medicamentos.page.jsx';
 
 export const AppRoutes = () => {
 
@@ -31,6 +32,7 @@ export const AppRoutes = () => {
           <Route path="/pacientes/:idPaciente/exames" element={<Exames />} />
           <Route path="/pacientes/:idPaciente/exames/:id" element={<Exames />} />
           <Route path="/pacientes" element={<PacientesPage />} />
+          <Route path="/medicamentos" element={<MedicamentosPage />}/>
         </Route>
         <Route path="*" element={<p>Página não existe</p>} />
       </Routes>

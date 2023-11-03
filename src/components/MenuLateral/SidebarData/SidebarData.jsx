@@ -30,7 +30,7 @@ export const SidebarData =  [
   },
   {
     title: 'Cadastro de Medicamento',
-    // path: '/medicalrecordlist',
+    path: '/medicamentos',
     icon: <BsIcon.BsCapsulePill style={style}/>,
     cName: 'nav-text',
   },
