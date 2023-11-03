@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login.page.jsx';
-import Home from '../pages/Home/Home';
+import { HomePage } from '../pages/Home/Home.jsx'
 import Exames from '../pages/Exames/Exames.page.jsx';
 import Usuario from "../pages/Usuario/Usuario.page";
 import DetalhaProntuario from "../pages/DetalhaProntuario/DetalhaProntuario.page";
@@ -20,7 +20,7 @@ export const AppRoutes = () => {
   return (
   <ToastProvider>
       <Routes>               
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/usuarios/login" element={<Login />} />
         <Route path="/">
           <Route path="/lateralmenu" element={<Navbar/>}/>

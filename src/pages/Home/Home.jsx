@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/MenuLateral/Navbar/Navbar';
 import { useEffect, useState } from "react";
 import { CardEstatistica } from "../../components/CardEstatistica/CardEstatistica.component";
 import { PacienteService } from "../../services/Paciente.service";
 
-export const Home = () => {
+export const HomePage = () => {
     const [estatistica, setEstatistica] = useState({});
   
     const calcularEstatistica = async () => {
