@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth.context';
 import { v4 as uuidv4 } from 'uuid';
 import { UserService } from "../../services/Usuario.service";
+import Navbar from '../../components/MenuLateral/Navbar/Navbar';
 
 
 const CadastroUsuario = () => {
@@ -46,6 +47,7 @@ const CadastroUsuario = () => {
 
   return (
     <div>
+      <Navbar/>
       <h1>Cadastro de Usuário</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="nome">Nome Completo:</label>

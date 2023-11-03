@@ -1,4 +1,5 @@
 import DietaForm from "../../components/Form/Dieta/DietaForm";
+import Navbar from "../../components/MenuLateral/Navbar/Navbar";
 import { PacienteService } from "../../services/Paciente.service";
 import * as Styled from './Dieta.style';
 
@@ -29,6 +30,7 @@ export const DietaPage = () => {
 
     return (
         <>
+        <Navbar/>
           <Styled.DietaPage>
             <Styled.Title>Selecione um Paciente para cadastrar a Dieta</Styled.Title>
             {pacientes.length > 0 ? (

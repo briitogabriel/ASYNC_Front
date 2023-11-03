@@ -1,6 +1,21 @@
 import axios from 'axios';
 import { LocalStorageService } from "./LocalStorage.service";
 
+const login = (usuario) => {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/login`, usuario, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao realizar login", error);
+  });
+};
+
 const getUsers = () => {
   return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, {
     headers: {
@@ -78,6 +93,7 @@ const updateUser = (usuarioId, data) => {
 };
 
 export const UserService = {
+  login,
   getUsers,
   createUser,
   getUserById,
