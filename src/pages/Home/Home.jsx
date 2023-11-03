@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/MenuLateral/Navbar/Navbar';
+import { useEffect, useState } from "react";
+import { CardEstatistica } from "../../components/CardEstatistica/CardEstatistica.component";
+import { PacienteService } from "../../services/Paciente.service";
 
-const Home = () => {
+export const Home = () => {
+    const [estatistica, setEstatistica] = useState({});
+  
+    const calcularEstatistica = async () => {
+        const pacientes = await PacienteService.buscarPacientes();
+
+        setEstatistica({pacientes: pacientes.lengh})
+    }
 
     return <div>
         <Navbar/>
@@ -11,5 +21,3 @@ const Home = () => {
         </div>
     </div>;
 };
-
-export default Home;
