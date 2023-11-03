@@ -172,8 +172,8 @@ export const MedicamentosPage = () => {
                       id="med_nome"
                       name="med_nome"
                       required
-                      minLength="6"
-                      maxLength="60"
+                      minLength="5"
+                      maxLength="100"
                       value={medicamentoData.med_nome}
                       onChange={handleChange}
                     />
@@ -219,27 +219,27 @@ export const MedicamentosPage = () => {
                       name="med_descricao"
                       required
                       minLength="10"
-                      maxLength="1000"
+                      maxLength="100"
                       value={medicamentoData.med_descricao}
                       onChange={handleChange}
                     ></input>
                   </div>
                 </div>
                 <div className="row mb-3">
-                  <div className="col-md-4 mb-3">
-                    <label htmlFor="med_tipo" className="form-label">
-                      Tipo do medicamento:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="med_tipo"
-                      name="med_tipo"
-                      value={medicamentoData.med_tipo}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
+                    <div className="col-md-4 mb-3">
+                        <label htmlFor="med_tipo" className="form-label">Tipo do medicamento:</label>
+                        <select defaultValue='dafault' className="form-control" name="med_tipo" id="med_tipo" onChange={handleChange}> 
+                            <option value="default" desabled="true" hidden> </option>
+                            <option value="Cápsula">Cápsula</option>
+                            <option value="Comprimido">Comprimido</option>
+                            <option value="Líquido">Líquido</option>
+                            <option value="Creme">Creme</option>
+                            <option value="Gel">Gel</option>
+                            <option value="Inalação">Inalação</option>
+                            <option value="Injeção">Injeção</option>
+                            <option value="Spray">Spray</option>
+                        </select>
+                    </div>
                   <div className="col-md-4 mb-3">
                     <label htmlFor="med_qtd" className="form-label">
                       Quantidade:
@@ -255,18 +255,15 @@ export const MedicamentosPage = () => {
                     />
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label htmlFor="med_unidade" className="form-label">
-                      Unidade:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="med_unidade"
-                      name="med_unidade"
-                      value={medicamentoData.med_unidade}
-                      onChange={handleChange}
-                      required
-                    />
+                        <label htmlFor="med_unidade" className="form-label">Unidade:</label>
+                        <select defaultValue='dafault' className="form-control" name="med_unidade" id="med_unidade" onChange={handleChange}> 
+                            <option value="default" desabled="true" hidden> </option>
+                            <option value="mg">mg</option>
+                            <option value="mcg">mcg</option>
+                            <option value="g">g</option>
+                            <option value="mL">mL</option>
+                            <option value="%">%</option>
+                        </select>
                   </div>
                 </div>
 
