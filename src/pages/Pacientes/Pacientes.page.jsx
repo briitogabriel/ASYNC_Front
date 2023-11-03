@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PacienteForm from "../../components/Form/Paciente/PacienteForm.component"
 import { PacienteService } from "../../services/Paciente.service";
+import Navbar from '../../components/MenuLateral/Navbar/Navbar';
 
 
-const CadastroPaciente = () => {
+export const PacientesPage = () => {
   const [nome, setNome] = useState("");
   const [genero, setGenero] = useState("");
   const [nascimento, setNascimento] = useState("");
@@ -12,6 +12,7 @@ const CadastroPaciente = () => {
   const [estadoCivil, setEstadoCivil] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
+  const [naturalidade, setNaturalidade] = useState("");
   const [contatoEmergencia, setContatoEmergencia] = useState("");
   const [alergias, setAlergias] = useState("");
   const [cuidadosEspeciais, setCuidadosEspeciais] = useState("");
@@ -26,7 +27,7 @@ const CadastroPaciente = () => {
   const [compBairro, setCompBairro] = useState("");
   const [compPontoReferencia, setCompPontoReferencia] = useState("");
 
-  const handleSubmit = (e) => {
+   const handleSubmit = (e) => {
     e.preventDefault();
 
     const id = uuidv4();
@@ -325,9 +326,8 @@ const CadastroPaciente = () => {
         <button type="submit">Cadastrar</button>
       </form>
 
-      <p>{mensagem}</p>
+     {/*  <p>{mensagem}</p> */}
     </div>
   );
 };
 
-export default CadastroPaciente;

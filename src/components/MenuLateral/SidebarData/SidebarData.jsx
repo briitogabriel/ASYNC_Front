@@ -12,7 +12,7 @@ export const SidebarData =  [
   },
   {
     title: 'Cadastro de Paciente',
-    // path: '/patientregistration',
+    path: '/pacientes',
     icon: <BsIcon.BsFillPersonVcardFill style={style}/>,
     cName: 'nav-text',
   },
