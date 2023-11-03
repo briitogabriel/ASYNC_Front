@@ -1,6 +1,22 @@
 import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
+
+const criarPacientes = (data) => {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes`, data, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error.response.data)
+    return false
+  });
+};
+
 const buscarPacientes = () => {
   return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes`, {
     headers: {
@@ -32,6 +48,7 @@ const detalharPaciente = (id) => {
 };
 
 export const PacienteService = {
+  criarPacientes,
   buscarPacientes,
   detalharPaciente,
 };
