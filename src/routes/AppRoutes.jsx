@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login';
-import Home from '../pages/Home/Home';
 import Exames from '../pages/Exames/Exames.page.jsx';
 import Usuario from "../pages/Usuario/Usuario.page";
 import DetalhaProntuario from "../pages/DetalhaProntuario/DetalhaProntuario.page";
@@ -12,6 +11,7 @@ import Toolbar from '../components/Toolbar/Toolbar';
 import Message from '../components/Message/Message';
 import SideMenu from '../components/SideMenu/SideMenu';
 import Content from '../components/Content/Content';
+import { Home } from '../pages/Home/Home.jsx';
 
 export const AppRoutes = () => {
 
