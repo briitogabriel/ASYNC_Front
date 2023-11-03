@@ -1,6 +1,22 @@
 import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
+const criarConsulta = (data) => {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas`, data, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error.response.data)
+    return false
+  });
+};
+
+
 const detalharConsulta = (id) => {
   return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${id}`, {
     headers: {
@@ -79,6 +95,7 @@ const listarConsultasPorPaciente = (id) => {
 };
 
 export const ConsultaService = {
+  criarConsulta,
   detalharConsulta,
   salvarConsulta,
   atualizarConsulta,
