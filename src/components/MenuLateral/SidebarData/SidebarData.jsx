@@ -24,7 +24,7 @@ export const SidebarData =  [
   },
   {
     title: 'Cadastro de Consulta',
-    // path: '/examregistration',
+    path: '/consultas',
     icon: <FaIcon.FaFileMedicalAlt style={style}/>,
     cName: 'nav-text',
   },
