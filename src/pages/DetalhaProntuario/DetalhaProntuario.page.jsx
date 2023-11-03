@@ -139,7 +139,7 @@ const DetalhaProntuario = () => {
                         {exames.length > 0 ? (
                             <ul className="list-group p-3">
                                 {exames.slice(0, 5).map((exame) => (
-                                    <li key={exame.id} className="list-group-item d-flex justify-content-between align-items-center">
+                                    <li key={exame.exa_id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
                                             <span className="fw-bold">Data:</span> {exame.exa_data}
                                             <span className="fw-bold"> - Horário:</span> {exame.exa_hora}
