@@ -13,6 +13,7 @@ import Navbar from '../components/MenuLateral/Navbar/Navbar.jsx';
 import Toolbar from '../components/Toolbar/Toolbar.page.jsx';
 import { PacientesPage } from '../pages/Pacientes/Pacientes.page.jsx';
 import { MedicamentosPage } from '../pages/Medicamentos/Medicamentos.page.jsx';
+import { ConsultaPage } from '../pages/Consulta/Consulta.page.jsx';
 
 export const AppRoutes = () => {
 
@@ -34,6 +35,7 @@ export const AppRoutes = () => {
           <Route path="/pacientes" element={<PacientesPage />} />
           <Route path="/medicamentos" element={<MedicamentosPage />}/>
           <Route path="pacientes/:pacienteId/medicamentos" element={<MedicamentosPage />}/>
+          <Route path="/consultas" element={<ConsultaPage />} />
         </Route>
         <Route path="*" element={<p>Página não existe</p>} />
       </Routes>
