@@ -33,6 +33,7 @@ export const AppRoutes = () => {
           <Route path="/pacientes/:idPaciente/exames/:id" element={<Exames />} />
           <Route path="/pacientes" element={<PacientesPage />} />
           <Route path="/medicamentos" element={<MedicamentosPage />}/>
+          <Route path="pacientes/:pacienteId/medicamentos" element={<MedicamentosPage />}/>
         </Route>
         <Route path="*" element={<p>Página não existe</p>} />
       </Routes>
