@@ -29,7 +29,7 @@ const buscarDietasPorPaciente = (nomePaciente) => {
   })
   .catch((error) => {
     console.log(error)
-    throw new Error("Erro ao detalhar dados do exame", error);
+    throw new Error("Erro ao detalhar dados da dieta", error);
   });
 };
 
