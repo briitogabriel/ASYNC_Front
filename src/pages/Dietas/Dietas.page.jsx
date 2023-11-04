@@ -3,6 +3,7 @@ import { DietaService } from "../../services/Dieta.service";
 
 import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
 import { useToast } from "../../contexts/ToastContext";
+import Message from "../../components/Message/Message";
 import useConfirmation from "../../hooks/useConfirmation";
 import Autocomplete from "../../components/Autocomplete/Autocomplete";
 
@@ -30,8 +31,12 @@ const Dietas = () => {
   const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const [pacienteData, setPacienteData] = useState({});
   const [dietaData, setDietaData] = useState({
+    die_nome: '',
     die_data: getFormattedDate(),
     die_hora: getFormattedTime(),
+    die_tipo: 'Low Carb',
+    die_descricao: '',
+    pac_id: '',
   });
 
   useEffect(() => {
@@ -68,7 +73,7 @@ const Dietas = () => {
   };
 
   const validateForm = () => {
-    if (!dietaData.die_nome || !dietaData.die_data || !dietaData.die_hora || !dietaData.die_tipo || !dietaData.die_descricao) {
+    if (dietaData.die_nome.length == 0 || dietaData.die_data.length == 0 || dietaData.die_hora.length == 0 || dietaData.die_tipo.length == 0 || dietaData.die_descricao.length == 0) {
       showToast('Os campos Nome, Data, Hora, Tipo e Descrição são obrigatórios.');
       return false;
     }
@@ -83,6 +88,11 @@ const Dietas = () => {
     return true;
   };
 
+  const redirectProntuarios = () => {
+    let idRedirect = idPaciente ? idPaciente : pacienteSelecionado.id;
+    navigate(`/prontuarios/${idRedirect}`);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -95,10 +105,10 @@ const Dietas = () => {
       dietaDataCopy.die_data = getFormattedDate();
       dietaDataCopy.pac_id = pacienteData.pac_id;
 
-      await DietaService.salvarDieta(JSON.stringify(dietaDataCopy));
+      await DietaService.criarDieta(JSON.stringify(dietaDataCopy));
 
       await showToast(`Dieta do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`);
-      navigate(`/prontuarios/${idPaciente}`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       await showToast("Falha ao salvar dieta do paciente!");
       console.error(error);
@@ -121,7 +131,7 @@ const Dietas = () => {
       await DietaService.atualizarDieta(dietaDataCopy, idDieta);
 
       await showToast(`Dieta do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
-      // navigate(`/prontuarios/${idPaciente}`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       console.error(error);
       await showToast("Falha ao atualizar dieta do paciente!");
@@ -133,7 +143,7 @@ const Dietas = () => {
       try {
         await DietaService.deletarDieta(idDieta);
         await showToast(`Dieta do paciente "${pacienteData.pac_nome}" deletada com sucesso!`);
-        // navigate(`/prontuarios/${idPaciente}`);
+        setTimeout(redirectProntuarios, 3000);
       } catch (error) {
         await showToast("Falha ao deletar o dieta do paciente!");
       }
@@ -148,6 +158,7 @@ const Dietas = () => {
     <>
       <Navbar />
       <div className="container">
+        <Message />
         <ConfirmationModal />
         <div className="row">
           <div className="col-md-12">
@@ -266,7 +277,6 @@ const Dietas = () => {
                       className="form-control"
                       id="die_tipo"
                       name="die_tipo"
-                      defaultValue={tiposDietas[0].value}
                       value={dietaData.die_tipo}
                       onChange={handleChange}
                       required

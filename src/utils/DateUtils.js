@@ -10,3 +10,8 @@ export function getFormattedTime() {
   
     return `${hours}:${minutes}`;
   }
+
+export function formatStringToDate(string) {    // expected YYYY-MM-DD
+    const stringArray = string.split('-')
+    return `${stringArray[2]}/${stringArray[1]}/${stringArray[0]}`
+}

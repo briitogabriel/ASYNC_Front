@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { PacienteService } from '../../services/Paciente.service';
 import { ExameService } from '../../services/Exames.service';
 import { ConsultaService } from '../../services/Consultas.service';
-import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
+import { formatStringToDate } from "../../utils/DateUtils";
 import { DietaService } from '../../services/Dieta.service';
+import { ExercicioService } from '../../services/Exercicio.service';
 
 const DetalhaProntuario = () => {
     const { idPaciente } = useParams();
@@ -14,6 +15,7 @@ const DetalhaProntuario = () => {
     const [consultas, setConsultas] = useState([]);
     const [exames, setExames] = useState([]);
     const [dietas, setDietas] = useState(null);
+    const [exercicios, setExercicios] = useState(null);
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -22,6 +24,7 @@ const DetalhaProntuario = () => {
                 const paciente = await PacienteService.detalharPaciente(idPaciente);
                 setPacienteData(paciente);
                 fetchDietas(paciente);
+                fetchExercicios(paciente);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os dados do paciente');
@@ -55,6 +58,16 @@ const DetalhaProntuario = () => {
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar as dietas');
+            }
+        };
+
+        const fetchExercicios = async (paciente) => {
+            try {
+                const exercicios = await ExercicioService.buscarExerciciosPorPaciente(paciente.pac_nome)
+                setExercicios(exercicios);
+            } catch (error) {
+                console.error(error);
+                showToast('Falha ao buscar os exercicios');
             }
         };
 
@@ -107,7 +120,7 @@ const DetalhaProntuario = () => {
                                 {consultas.slice(0, 5).map((consulta) => (
                                     <li key={consulta.con_id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
-                                            <span className="fw-bold">Data:</span> {consulta.con_data}
+                                            <span className="fw-bold">Data:</span> {formatStringToDate(consulta.con_data)}
                                             <span className="fw-bold">- Horário:</span> {consulta.con_hora}
                                             <span className="fw-bold">- Motivo:</span> {consulta.con_motivo}
                                         </span>
@@ -141,9 +154,9 @@ const DetalhaProntuario = () => {
                                 {exames.slice(0, 5).map((exame) => (
                                     <li key={exame.exa_id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
-                                            <span className="fw-bold">Data:</span> {exame.exa_data}
-                                            <span className="fw-bold"> - Horário:</span> {exame.exa_hora}
-                                            <span className="fw-bold"> - Tipo:</span> {exame.exa_tipo}
+                                            <span className="fw-bold">Data:</span> {formatStringToDate(exame.exa_data)}
+                                            <span className="fw-bold">- Horário:</span> {exame.exa_hora}
+                                            <span className="fw-bold">- Tipo:</span> {exame.exa_tipo}
                                         </span>
                                         <Link to={`/pacientes/${pacienteData.pac_id}/exames/${exame.exa_id}`}>
                                             <button type="button" className="btn btn-secondary">
@@ -174,9 +187,9 @@ const DetalhaProntuario = () => {
                                 {dietas.data.map((dieta) => (
                                     <li key={dieta.die_id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
-                                            <span className="fw-bold">Data:</span> {dieta.die_data}
-                                            <span className="fw-bold"> - Horário:</span> {dieta.die_hora}
-                                            <span className="fw-bold"> - Tipo:</span> {dieta.die_tipo}
+                                            <span className="fw-bold">Data:</span> {formatStringToDate(dieta.die_data)}
+                                            <span className="fw-bold">- Horário:</span> {dieta.die_hora}
+                                            <span className="fw-bold">- Tipo:</span> {dieta.die_tipo}
                                         </span>
                                         <Link to={`/pacientes/${pacienteData.pac_id}/dietas/${dieta.die_id}`}>
                                             <button type="button" className="btn btn-secondary">
@@ -189,6 +202,39 @@ const DetalhaProntuario = () => {
                         ) : (
                             <div className="card-body">
                                 <p>Nenhuma dieta registrada</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="card mt-4">
+                        <div className="card-body d-flex justify-content-between align-items-center">
+                            <h5 className="card-title">Exercicios</h5>
+                            <Link to={`/dietas`}>
+                                <button type="button" className="btn btn-info">
+                                    <i className="bi bi-clipboard-pulse"></i> Cadastrar
+                                </button>
+                            </Link>
+                        </div>
+                        {exercicios ? (
+                            <ul className="list-group p-3">
+                                {exercicios.data.map((exercicio) => (
+                                    <li key={exercicio.exe_id} className="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <span className="fw-bold">Data:</span> {formatStringToDate(exercicio.exe_data)}
+                                            <span className="fw-bold">- Horário:</span> {exercicio.exe_hora}
+                                            <span className="fw-bold">- Tipo:</span> {exercicio.exe_tipo}
+                                        </span>
+                                        <Link to={`/pacientes/${pacienteData.pac_id}/exercicios/${exercicio.exe_id}`}>
+                                            <button type="button" className="btn btn-secondary">
+                                                <i className="bi bi-search"></i>
+                                            </button>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div className="card-body">
+                                <p>Nenhum exercicio registrado</p>
                             </div>
                         )}
                     </div>
