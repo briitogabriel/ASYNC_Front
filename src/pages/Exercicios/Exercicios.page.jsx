@@ -33,7 +33,7 @@ const Exercicios = () => {
     exe_nome: '',
     exe_data: getFormattedDate(),
     exe_hora: getFormattedTime(),
-    exe_tipo: '',
+    exe_tipo: 'Resistência Aeróbica',
     exe_descricao: '',
     exe_qtd: '',
     pac_id: '',
@@ -73,8 +73,15 @@ const Exercicios = () => {
   };
 
   const validateForm = () => {
-    if (exercicioData.exe_nome.length == 0 || exercicioData.exe_data.length == 0 || exercicioData.exe_hora.length == 0 || exercicioData.exe_tipo.length == 0 || exercicioData.exe_descricao.length == 0) {
-      showToast('Os campos Nome, Data, Hora, Tipo e Descrição são obrigatórios.');
+    if (
+      exercicioData.exe_nome.length == 0 ||
+      exercicioData.exe_data.length == 0 ||
+      exercicioData.exe_hora.length == 0 ||
+      exercicioData.exe_tipo.length == 0 ||
+      exercicioData.exe_descricao.length == 0 ||
+      exercicioData.exe_qtd == 0
+      ) {
+      showToast('Os campos Nome, Quantidade, Data, Hora, Tipo e Descrição são obrigatórios.');
       return false;
     }
     if (exercicioData.exe_nome.length < 5 || exercicioData.exe_nome.length > 100) {
@@ -88,6 +95,11 @@ const Exercicios = () => {
     return true;
   };
 
+  const redirectProntuarios = () => {
+    let idRedirect = idPaciente ? idPaciente : pacienteSelecionado.id;
+    navigate(`/prontuarios/${idRedirect}`);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -100,10 +112,10 @@ const Exercicios = () => {
       exercicioDataCopy.exe_data = getFormattedDate();
       exercicioDataCopy.pac_id = pacienteData.pac_id;
 
-      await ExercicioService.salvarExercicio(JSON.stringify(exercicioDataCopy));
+      await ExercicioService.criarExercicio(JSON.stringify(exercicioDataCopy));
 
-      await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`);
-      navigate(`/prontuarios/${idPaciente}`);
+      await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" cadastrado com sucesso!`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       await showToast("Falha ao salvar exercicio do paciente!");
       console.error(error);
@@ -125,8 +137,8 @@ const Exercicios = () => {
 
       await ExercicioService.atualizarExercicio(exercicioDataCopy, idExercicio);
 
-      await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
-      // navigate(`/prontuarios/${idPaciente}`);
+      await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" atualizado com sucesso!`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       console.error(error);
       await showToast("Falha ao atualizar exercicio do paciente!");
@@ -137,8 +149,8 @@ const Exercicios = () => {
     showConfirm("Deseja realmente excluir este exercicio?", async () => {
       try {
         await ExercicioService.deletarExercicio(idExercicio);
-        await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" deletada com sucesso!`);
-        // navigate(`/prontuarios/${idPaciente}`);
+        await showToast(`Exercicio do paciente "${pacienteData.pac_nome}" deletado com sucesso!`);
+        setTimeout(redirectProntuarios, 3000);
       } catch (error) {
         await showToast("Falha ao deletar o exercicio do paciente!");
       }
@@ -218,9 +230,9 @@ const Exercicios = () => {
                   </div>
                 </div>
                 <div className="row mb-3">
-                  <div className="col-md-12">
+                  <div className="col-md-8">
                     <label htmlFor="exe_nome" className="form-label">
-                      Nome da exercicio:
+                      Nome do exercicio:
                     </label>
                     <input
                       type="text"
@@ -234,11 +246,28 @@ const Exercicios = () => {
                       onChange={handleChange}
                     />
                   </div>
+                  <div className="col-md-4">
+                    <label htmlFor="exe_qtd" className="form-label">
+                      Quantidade de exercicios:
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="exe_qtd"
+                      name="exe_qtd"
+                      min="0"
+                      step=".01"
+                      pattern="^\d*(\.\d{0,2})?$"
+                      value={exercicioData.exe_qtd}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-4">
                     <label htmlFor="exe_data" className="form-label">
-                      Data da exercicio:
+                      Data do exercicio:
                     </label>
                     <input
                       type="date"
@@ -252,7 +281,7 @@ const Exercicios = () => {
                   </div>
                   <div className="col-md-4">
                     <label htmlFor="exe_hora" className="form-label">
-                      Horário da exercicio:
+                      Horário do exercicio:
                     </label>
                     <input
                       type="time"
@@ -266,13 +295,12 @@ const Exercicios = () => {
                   </div>
                   <div className="col-md-4">
                     <label htmlFor="exe_tipo" className="form-label">
-                      Tipo da exercicio
+                      Tipo do exercicio
                     </label>
                     <select
                       className="form-control"
                       id="exe_tipo"
                       name="exe_tipo"
-                      defaultValue={tiposExercicios[0].value}
                       value={exercicioData.exe_tipo}
                       onChange={handleChange}
                       required
@@ -292,7 +320,7 @@ const Exercicios = () => {
                 <div className="row mb-3">
                   <div className="col-md-12">
                     <label htmlFor="exe_descricao" className="form-label">
-                      Descrição da exercicio:
+                      Descrição do exercicio:
                     </label>
                     <textarea
                       className="form-control"
