@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const criarExercicio = (exercicio) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicio`, exercicio, {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios`, exercicio, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
