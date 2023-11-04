@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Dietas from "../pages/Dieta/Dieta.page.jsx";
+import Dietas from "../pages/Dietas/Dietas.page.jsx";
 import Login from '../pages/Login/Login.page.jsx';
 import { HomePage } from '../pages/Home/Home.jsx'
 import Exames from '../pages/Exames/Exames.page.jsx';
