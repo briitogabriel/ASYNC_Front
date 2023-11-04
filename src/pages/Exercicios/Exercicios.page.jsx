@@ -3,6 +3,7 @@ import { ExercicioService } from "../../services/Exercicio.service";
 
 import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
 import { useToast } from "../../contexts/ToastContext";
+import Message from "../../components/Message/Message";
 import useConfirmation from "../../hooks/useConfirmation";
 import Autocomplete from "../../components/Autocomplete/Autocomplete";
 
@@ -152,6 +153,7 @@ const Exercicios = () => {
     <>
       <Navbar />
       <div className="container">
+        <Message />
         <ConfirmationModal />
         <div className="row">
           <div className="col-md-12">
