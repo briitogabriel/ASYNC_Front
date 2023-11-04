@@ -34,7 +34,7 @@ const Dietas = () => {
     die_nome: '',
     die_data: getFormattedDate(),
     die_hora: getFormattedTime(),
-    die_tipo: '',
+    die_tipo: 'Low Carb',
     die_descricao: '',
     pac_id: '',
   });
@@ -88,6 +88,11 @@ const Dietas = () => {
     return true;
   };
 
+  const redirectProntuarios = () => {
+    let idRedirect = idPaciente ? idPaciente : pacienteSelecionado.id;
+    navigate(`/prontuarios/${idRedirect}`);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -103,7 +108,7 @@ const Dietas = () => {
       await DietaService.criarDieta(JSON.stringify(dietaDataCopy));
 
       await showToast(`Dieta do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`);
-      // navigate(`/prontuarios/${idPaciente}`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       await showToast("Falha ao salvar dieta do paciente!");
       console.error(error);
@@ -126,7 +131,7 @@ const Dietas = () => {
       await DietaService.atualizarDieta(dietaDataCopy, idDieta);
 
       await showToast(`Dieta do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
-      // navigate(`/prontuarios/${idPaciente}`);
+      setTimeout(redirectProntuarios, 3000);
     } catch (error) {
       console.error(error);
       await showToast("Falha ao atualizar dieta do paciente!");
@@ -138,7 +143,7 @@ const Dietas = () => {
       try {
         await DietaService.deletarDieta(idDieta);
         await showToast(`Dieta do paciente "${pacienteData.pac_nome}" deletada com sucesso!`);
-        // navigate(`/prontuarios/${idPaciente}`);
+        setTimeout(redirectProntuarios, 3000);
       } catch (error) {
         await showToast("Falha ao deletar o dieta do paciente!");
       }
