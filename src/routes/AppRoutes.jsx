@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { DietaPage } from "../pages/Dieta/Dieta.page.jsx";
+import Dietas from "../pages/Dieta/Dieta.page.jsx";
 import Login from '../pages/Login/Login.page.jsx';
 import { HomePage } from '../pages/Home/Home.jsx'
 import Exames from '../pages/Exames/Exames.page.jsx';
@@ -8,7 +8,6 @@ import Usuario from "../pages/Usuario/Usuario.page";
 import DetalhaProntuario from "../pages/DetalhaProntuario/DetalhaProntuario.page";
 import Prontuarios from '../pages/Prontuarios/Prontuarios.page.jsx';
 import { ToastProvider } from '../contexts/ToastContext';
-// import Content from '../components/Content/Content';
 import Navbar from '../components/MenuLateral/Navbar/Navbar.jsx';
 import Toolbar from '../components/Toolbar/Toolbar.page.jsx';
 import { PacientesPage } from '../pages/Pacientes/Pacientes.page.jsx';
@@ -25,7 +24,8 @@ export const AppRoutes = () => {
         <Route path="/">
           <Route path="/lateralmenu" element={<Navbar/>}/>
           <Route path="/toolbar" element={<Toolbar/>}/>
-          <Route path="/cadastrar-dieta" element={<DietaPage />} />
+          <Route path="/dietas" element={<Dietas />} />
+          <Route path="/pacientes/:idPaciente/dietas/:idDieta" element={<Dietas />} />
           <Route path="/cadastrar-usuario" element={<Usuario />} />
           <Route path="/prontuarios" element={<Prontuarios />} />
           <Route path="/prontuarios/:idPaciente" element={<DetalhaProntuario />} />

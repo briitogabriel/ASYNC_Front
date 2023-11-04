@@ -6,12 +6,14 @@ import { PacienteService } from '../../services/Paciente.service';
 import { ExameService } from '../../services/Exames.service';
 import { ConsultaService } from '../../services/Consultas.service';
 import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
+import { DietaService } from '../../services/Dieta.service';
 
 const DetalhaProntuario = () => {
     const { idPaciente } = useParams();
     const [pacienteData, setPacienteData] = useState({});
     const [consultas, setConsultas] = useState([]);
     const [exames, setExames] = useState([]);
+    const [dietas, setDietas] = useState(null);
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -19,6 +21,7 @@ const DetalhaProntuario = () => {
             try {
                 const paciente = await PacienteService.detalharPaciente(idPaciente);
                 setPacienteData(paciente);
+                fetchDietas(paciente);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os dados do paciente');
@@ -42,6 +45,16 @@ const DetalhaProntuario = () => {
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os exames');
+            }
+        };
+
+        const fetchDietas = async (paciente) => {
+            try {
+                const dietas = await DietaService.buscarDietasPorPaciente(paciente.pac_nome)
+                setDietas(dietas);
+            } catch (error) {
+                console.error(error);
+                showToast('Falha ao buscar as dietas');
             }
         };
 
@@ -126,7 +139,7 @@ const DetalhaProntuario = () => {
                         {exames.length > 0 ? (
                             <ul className="list-group p-3">
                                 {exames.slice(0, 5).map((exame) => (
-                                    <li key={exame.id} className="list-group-item d-flex justify-content-between align-items-center">
+                                    <li key={exame.exa_id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
                                             <span className="fw-bold">Data:</span> {exame.exa_data}
                                             <span className="fw-bold"> - Horário:</span> {exame.exa_hora}
@@ -143,6 +156,39 @@ const DetalhaProntuario = () => {
                         ) : (
                             <div className="card-body">
                                 <p>Nenhum exame registrado</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="card mt-4">
+                        <div className="card-body d-flex justify-content-between align-items-center">
+                            <h5 className="card-title">Dietas</h5>
+                            <Link to={`/dietas`}>
+                                <button type="button" className="btn btn-info">
+                                    <i className="bi bi-clipboard-pulse"></i> Cadastrar
+                                </button>
+                            </Link>
+                        </div>
+                        {dietas ? (
+                            <ul className="list-group p-3">
+                                {dietas.data.map((dieta) => (
+                                    <li key={dieta.die_id} className="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <span className="fw-bold">Data:</span> {dieta.die_data}
+                                            <span className="fw-bold"> - Horário:</span> {dieta.die_hora}
+                                            <span className="fw-bold"> - Tipo:</span> {dieta.die_tipo}
+                                        </span>
+                                        <Link to={`/pacientes/${pacienteData.pac_id}/dietas/${dieta.die_id}`}>
+                                            <button type="button" className="btn btn-secondary">
+                                                <i className="bi bi-search"></i>
+                                            </button>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div className="card-body">
+                                <p>Nenhuma dieta registrada</p>
                             </div>
                         )}
                     </div>
