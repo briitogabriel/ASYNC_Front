@@ -8,14 +8,26 @@ import Autocomplete from "../../components/Autocomplete/Autocomplete";
 
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Navbar from "../../components/MenuLateral/Navbar/Navbar";
 
 const Dietas = () => {
-  // const { idPaciente, id } = useParams();
-  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
+
+  const tiposDietas = [
+    { value: 'Low Carb', label: 'Low Carb' },
+    { value: 'Dash', label: 'Dash' },
+    { value: 'Paleolítica', label: 'Paleolítica' },
+    { value: 'Cetogênica', label: 'Cetogênica' },
+    { value: 'Dukan', label: 'Dukan' },
+    { value: 'Mediterrânea', label: 'Mediterrânea' },
+    { value: 'Outra', label: 'Outra' },
+  ];
+
+  const { idPaciente, idDieta } = null || useParams();
   const navigate = useNavigate();
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
 
+  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const [pacienteData, setPacienteData] = useState({});
   const [dietaData, setDietaData] = useState({
     die_data: getFormattedDate(),
@@ -23,33 +35,32 @@ const Dietas = () => {
   });
 
   useEffect(() => {
+
     const buscarPaciente = async () => {
       try {
-        const paciente = await PacienteService.detalharPaciente(pacienteSelecionado.id);
+        const paciente = await PacienteService.detalharPaciente(idPaciente ? idPaciente : pacienteSelecionado.id);
         setPacienteData(paciente);
+        idPaciente ? buscarDieta(paciente) : null;
       } catch (error) {
         console.error(error);
       }
     };
-    if (pacienteSelecionado) {
-      buscarPaciente();
-    }
-  }, [pacienteSelecionado]);
 
-  useEffect(() => {
-    const buscarDietas = async () => {
+    const buscarDieta = async (paciente) => {
       try {
-        const dieta = await DietaService.detalharDieta(pacienteSelecionado.label);
+        const dietas = await DietaService.buscarDietasPorPaciente(paciente.pac_nome);
+        const dieta = dietas.data.find(dieta => dieta.die_id == idDieta)
         setDietaData(dieta);
       } catch (error) {
-        showToast("Falha ao buscar dieta do paciente!");
+        await showToast("Falha ao buscar dieta do paciente!");
         console.error(error);
       }
     };
-    if (pacienteSelecionado) {
-      buscarDietas();
+
+    if (pacienteSelecionado || idPaciente) {
+      buscarPaciente();
     }
-  }, [pacienteSelecionado]);
+  }, [pacienteSelecionado, idPaciente]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,16 +68,25 @@ const Dietas = () => {
   };
 
   const validateForm = () => {
-    // if (dietaData.die_resultados.length <= 15 || dietaData.die_resultados.length > 1000) {
-    //     showToast('O Resultado da Dieta deve conter entre 15 e 1000 caracteres.');
-    //     return false;
-    // }
+    if (!dietaData.die_nome || !dietaData.die_data || !dietaData.die_hora || !dietaData.die_tipo || !dietaData.die_descricao) {
+      showToast('Os campos Nome, Data, Hora, Tipo e Descrição são obrigatórios.');
+      return false;
+    }
+    if (dietaData.die_nome.length < 5 || dietaData.die_nome.length > 100) {
+      showToast('O Nome da Dieta deve conter entre 5 e 100 caracteres.');
+      return false;
+    }
+    if (dietaData.die_descricao.length < 10 || dietaData.die_descricao.length > 1000) {
+      showToast('A Descrição da Dieta deve conter entre 10 e 1000 caracteres.');
+      return false;
+    }
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       if (!validateForm()) {
         return;
       }
@@ -77,12 +97,10 @@ const Dietas = () => {
 
       await DietaService.salvarDieta(JSON.stringify(dietaDataCopy));
 
-      showToast(
-        `Dieta do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`
-      );
-      navigate(`/prontuarios/${pacienteData.pac_id}`);
+      await showToast(`Dieta do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`);
+      navigate(`/prontuarios/${idPaciente}`);
     } catch (error) {
-      showToast("Falha ao salvar dieta do paciente!");
+      await showToast("Falha ao salvar dieta do paciente!");
       console.error(error);
     }
   };
@@ -98,193 +116,197 @@ const Dietas = () => {
       }
 
       const dietaDataCopy = { ...dietaData };
-      dietaDataCopy.pac_id = pacienteSelecionado.id;
       dietaDataCopy.die_data = getFormattedDate();
 
-      await DietaService.atualizarDieta(dietaDataCopy);
+      await DietaService.atualizarDieta(dietaDataCopy, idDieta);
 
-      showToast(
-        `Dieta do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`
-      );
-      navigate("/home");
+      await showToast(`Dieta do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
+      // navigate(`/prontuarios/${idPaciente}`);
     } catch (error) {
       console.error(error);
-      showToast("Falha ao atualizar dieta do paciente!");
+      await showToast("Falha ao atualizar dieta do paciente!");
     }
   };
 
   const handleDelete = async (e) => {
     showConfirm("Deseja realmente excluir este dieta?", async () => {
       try {
-        await DietaService.deletarDieta(pacienteSelecionado);
-        showToast(
-          `Dieta do paciente "${pacienteData.pac_nome}" deletada com sucesso!`
-        );
-        navigate("/home");
+        await DietaService.deletarDieta(idDieta);
+        await showToast(`Dieta do paciente "${pacienteData.pac_nome}" deletada com sucesso!`);
+        // navigate(`/prontuarios/${idPaciente}`);
       } catch (error) {
-        showToast("Falha ao deletar o dieta do paciente!");
+        await showToast("Falha ao deletar o dieta do paciente!");
       }
     });
   };
 
   const onSelect = (paciente) => {
-    // navigate(`/pacientes/${paciente.id}/dietas`);
     setPacienteSelecionado(paciente);
   };
 
   return (
-    <div className="container">
-      <ConfirmationModal />
-      <div className="row">
-        <div className="col-md-12">
-          <div className="d-flex align-items-center mb-4">
-            <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
-            <h2 className="mb-0 text-blue">Cadastro de Dietas</h2>
-          </div>
-          <div className="input-group mb-3">
-            <Autocomplete
-              id="autocomplete-paciente"
-              placeholder="Digite o nome do paciente"
-              onChange={onSelect}
-            />
-            <button
-              className="btn btn-primary"
-              type="button"
-              id="buscar-paciente"
-            >
-              <i className="bi bi-search"></i>
-            </button>
-          </div>
+    <>
+      <Navbar />
+      <div className="container">
+        <ConfirmationModal />
+        <div className="row">
+          <div className="col-md-12">
+            <div className="d-flex align-items-center mb-4">
+              <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
+              <h2 className="mb-0 text-blue">{idDieta ? 'Atualização' : 'Cadastro'} de Dieta</h2>
+            </div>
+            {!idDieta && <div className="input-group mb-3">
+              <Autocomplete
+                id="autocomplete-paciente"
+                placeholder="Digite o nome do paciente"
+                onChange={onSelect}
+              />
+              <button
+                className="btn btn-primary"
+                type="button"
+                id="buscar-paciente"
+              >
+                <i className="bi bi-search"></i>
+              </button>
+            </div>}
 
-          {pacienteData && pacienteData.pac_id && (
-            <form className="mt-5" onSubmit={handleSubmit}>
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-blue fw-bold fs-4">
-                  Dieta para: {pacienteData && pacienteData.pac_nome}
-                </span>
-                <div className="d-flex">
-                  {pacienteSelecionado.id && (
-                    <>
-                      <button
-                        type="button"
-                        className="btn btn-light me-2"
-                        onClick={handleVoltar}
-                      >
-                        <i className="bi bi-arrow-return-left"></i> Voltar
-                      </button>
-                    </>
-                  )}
-                  <button
-                    disabled={!pacienteSelecionado.id}
-                    type="button"
-                    className="btn btn-secondary me-2"
-                    onClick={handleUpdate}
-                  >
-                    <i className="bi bi-pencil"></i> Editar
-                  </button>
-                  <button
-                    disabled={!pacienteSelecionado.id}
-                    type="button"
-                    className="btn btn-danger me-2"
-                    onClick={handleDelete}
-                  >
-                    <i className="bi bi-trash"></i> Deletar
-                  </button>
-                  {!pacienteSelecionado.id && (
-                    <button type="submit" className="btn btn-primary">
-                      <i className="bi bi-save"></i> Salvar
+            {pacienteData && pacienteData.pac_id && (
+              <form className="mt-5" onSubmit={handleSubmit} id="form-dietas">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="text-blue fw-bold fs-4">
+                    Dieta de: {pacienteData && pacienteData.pac_nome}
+                  </span>
+                  <div className="d-flex">
+                    {idPaciente && (
+                      <>
+                        <button
+                          type="button"
+                          className="btn btn-light me-2"
+                          onClick={handleVoltar}
+                        >
+                          <i className="bi bi-arrow-return-left"></i> Voltar
+                        </button>
+                      </>
+                    )}
+                    <button
+                      disabled={!idPaciente}
+                      type="button"
+                      className="btn btn-secondary me-2"
+                      onClick={handleUpdate}
+                    >
+                      <i className="bi bi-pencil"></i> Salvar Edição
                     </button>
-                  )}
+                    <button
+                      disabled={!idPaciente}
+                      type="button"
+                      className="btn btn-danger me-2"
+                      onClick={handleDelete}
+                    >
+                      <i className="bi bi-trash"></i> Deletar
+                    </button>
+                    {!idPaciente && (
+                      <button type="submit" className="btn btn-primary">
+                        <i className="bi bi-save"></i> Criar
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-md-12">
-                  <label htmlFor="die_nome" className="form-label">
-                    Nome da dieta:
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="die_nome"
-                    name="die_nome"
-                    required
-                    minLength="6"
-                    maxLength="60"
-                    value={dietaData.die_nome}
-                    onChange={handleChange}
-                  />
+                <div className="row mb-3">
+                  <div className="col-md-12">
+                    <label htmlFor="die_nome" className="form-label">
+                      Nome da dieta:
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="die_nome"
+                      name="die_nome"
+                      required
+                      minLength="5"
+                      maxLength="100"
+                      value={dietaData.die_nome}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-md-4">
-                  <label htmlFor="die_data" className="form-label">
-                    Data da dieta:
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="die_data"
-                    name="die_data"
-                    value={dietaData.die_data}
-                    onChange={handleChange}
-                    required
-                  />
+                <div className="row mb-3">
+                  <div className="col-md-4">
+                    <label htmlFor="die_data" className="form-label">
+                      Data da dieta:
+                    </label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="die_data"
+                      name="die_data"
+                      value={dietaData.die_data}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="die_hora" className="form-label">
+                      Horário da dieta:
+                    </label>
+                    <input
+                      type="time"
+                      className="form-control"
+                      id="die_hora"
+                      name="die_hora"
+                      value={dietaData.die_hora}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="die_tipo" className="form-label">
+                      Tipo da dieta
+                    </label>
+                    <select
+                      className="form-control"
+                      id="die_tipo"
+                      name="die_tipo"
+                      defaultValue={tiposDietas[0].value}
+                      value={dietaData.die_tipo}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="default" disabled hidden>
+                        {tiposDietas[0].label}
+                      </option>
+                      {tiposDietas.map((tipo) => (
+                        <option key={tipo.value} value={tipo.value}>
+                          {tipo.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div className="col-md-4">
-                  <label htmlFor="die_hora" className="form-label">
-                    Horário da dieta:
-                  </label>
-                  <input
-                    type="time"
-                    className="form-control"
-                    id="die_hora"
-                    name="die_hora"
-                    value={dietaData.die_hora}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="col-md-4">
-                  <label htmlFor="die_tipo" className="form-label">
-                    Tipo da dieta
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="die_tipo"
-                    name="die_tipo"
-                    value={dietaData.die_tipo}
-                    onChange={handleChange}
-                    required
-                    minLength="5"
-                    maxLength="30"
-                  />
-                </div>
-              </div>
 
-              <div className="row mb-3">
-                <div className="col-md-12">
-                  <label htmlFor="die_descricao" className="form-label">
-                    Resultado da dieta:
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="die_descricao"
-                    name="die_descricao"
-                    required
-                    minLength="15"
-                    maxLength="1000"
-                    rows="10"
-                    value={dietaData.die_descricao}
-                    onChange={handleChange}
-                  ></textarea>
+                <div className="row mb-3">
+                  <div className="col-md-12">
+                    <label htmlFor="die_descricao" className="form-label">
+                      Descrição da dieta:
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="die_descricao"
+                      name="die_descricao"
+                      required
+                      minLength="10"
+                      maxLength="1000"
+                      rows="6"
+                      value={dietaData.die_descricao}
+                      onChange={handleChange}
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

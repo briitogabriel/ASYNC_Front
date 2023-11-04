@@ -24,7 +24,8 @@ export const AppRoutes = () => {
         <Route path="/">
           <Route path="/lateralmenu" element={<Navbar/>}/>
           <Route path="/toolbar" element={<Toolbar/>}/>
-          <Route path="/cadastrar-dieta" element={<Dietas />} />
+          <Route path="/dietas" element={<Dietas />} />
+          <Route path="/pacientes/:idPaciente/dietas/:idDieta" element={<Dietas />} />
           <Route path="/cadastrar-usuario" element={<Usuario />} />
           <Route path="/prontuarios" element={<Prontuarios />} />
           <Route path="/prontuarios/:idPaciente" element={<DetalhaProntuario />} />

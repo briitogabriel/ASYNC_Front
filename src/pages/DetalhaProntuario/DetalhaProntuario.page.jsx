@@ -50,7 +50,7 @@ const DetalhaProntuario = () => {
 
         const fetchDietas = async (paciente) => {
             try {
-                const dietas = await DietaService.listarDietasPorPaciente(paciente.pac_nome)
+                const dietas = await DietaService.buscarDietasPorPaciente(paciente.pac_nome)
                 setDietas(dietas);
             } catch (error) {
                 console.error(error);
@@ -163,7 +163,7 @@ const DetalhaProntuario = () => {
                     <div className="card mt-4">
                         <div className="card-body d-flex justify-content-between align-items-center">
                             <h5 className="card-title">Dietas</h5>
-                            <Link to={`/cadastrar-dieta`}>
+                            <Link to={`/dietas`}>
                                 <button type="button" className="btn btn-info">
                                     <i className="bi bi-clipboard-pulse"></i> Cadastrar
                                 </button>
@@ -178,7 +178,7 @@ const DetalhaProntuario = () => {
                                             <span className="fw-bold"> - Horário:</span> {dieta.die_hora}
                                             <span className="fw-bold"> - Tipo:</span> {dieta.die_tipo}
                                         </span>
-                                        <Link to={`/cadastrar-dieta`}>
+                                        <Link to={`/pacientes/${pacienteData.pac_id}/dietas/${dieta.die_id}`}>
                                             <button type="button" className="btn btn-secondary">
                                                 <i className="bi bi-search"></i>
                                             </button>
