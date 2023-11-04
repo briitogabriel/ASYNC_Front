@@ -78,10 +78,26 @@ const listarExamesPorPaciente = (id) => {
   });
 };
 
+const listarExames = () => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao listar exames");
+  });
+}
+
 export const ExameService = {
   detalharExame,
   salvarExame,
   atualizarExame,
   deletarExame,
-  listarExamesPorPaciente
+  listarExamesPorPaciente,
+  listarExames
 };
