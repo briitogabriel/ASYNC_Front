@@ -30,8 +30,12 @@ const Dietas = () => {
   const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const [pacienteData, setPacienteData] = useState({});
   const [dietaData, setDietaData] = useState({
+    die_nome: '',
     die_data: getFormattedDate(),
     die_hora: getFormattedTime(),
+    die_tipo: '',
+    die_descricao: '',
+    pac_id: '',
   });
 
   useEffect(() => {
@@ -68,7 +72,7 @@ const Dietas = () => {
   };
 
   const validateForm = () => {
-    if (!dietaData.die_nome || !dietaData.die_data || !dietaData.die_hora || !dietaData.die_tipo || !dietaData.die_descricao) {
+    if (dietaData.die_nome.length == 0 || dietaData.die_data.length == 0 || dietaData.die_hora.length == 0 || dietaData.die_tipo.length == 0 || dietaData.die_descricao.length == 0) {
       showToast('Os campos Nome, Data, Hora, Tipo e Descrição são obrigatórios.');
       return false;
     }
@@ -266,7 +270,6 @@ const Dietas = () => {
                       className="form-control"
                       id="die_tipo"
                       name="die_tipo"
-                      defaultValue={tiposDietas[0].value}
                       value={dietaData.die_tipo}
                       onChange={handleChange}
                       required
