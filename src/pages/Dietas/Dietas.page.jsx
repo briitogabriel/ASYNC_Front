@@ -3,6 +3,7 @@ import { DietaService } from "../../services/Dieta.service";
 
 import { getFormattedDate, getFormattedTime } from "../../utils/DateUtils";
 import { useToast } from "../../contexts/ToastContext";
+import Message from "../../components/Message/Message";
 import useConfirmation from "../../hooks/useConfirmation";
 import Autocomplete from "../../components/Autocomplete/Autocomplete";
 
@@ -99,10 +100,10 @@ const Dietas = () => {
       dietaDataCopy.die_data = getFormattedDate();
       dietaDataCopy.pac_id = pacienteData.pac_id;
 
-      await DietaService.salvarDieta(JSON.stringify(dietaDataCopy));
+      await DietaService.criarDieta(JSON.stringify(dietaDataCopy));
 
       await showToast(`Dieta do paciente "${pacienteData.pac_nome}" cadastrada com sucesso!`);
-      navigate(`/prontuarios/${idPaciente}`);
+      // navigate(`/prontuarios/${idPaciente}`);
     } catch (error) {
       await showToast("Falha ao salvar dieta do paciente!");
       console.error(error);
@@ -152,6 +153,7 @@ const Dietas = () => {
     <>
       <Navbar />
       <div className="container">
+        <Message />
         <ConfirmationModal />
         <div className="row">
           <div className="col-md-12">
