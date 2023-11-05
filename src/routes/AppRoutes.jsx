@@ -36,11 +36,20 @@ export const AppRoutes = () => {
               <Toolbar/>
             </PrivateRoutes>
           }/>
-          <Route path="/cadastrar-dieta" element={
+          <Route path="/dietas" element={
             <PrivateRoutes>
               <Dietas />
             </PrivateRoutes>
           } />
+          <Route path="/pacientes/:idPaciente/dietas" element={
+            <PrivateRoutes>
+              <Dietas />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/dietas/:id" element={
+            <PrivateRoutes>
+              <Dietas />
+            </PrivateRoutes>} />
           <Route path="/cadastrar-usuario" element={
             <PrivateRoutes>
               <Usuario />

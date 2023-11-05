@@ -28,7 +28,6 @@ const Dietas = () => {
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
 
-  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const [pacienteData, setPacienteData] = useState({});
   const [dietaData, setDietaData] = useState({
     die_nome: '',
@@ -43,15 +42,19 @@ const Dietas = () => {
 
     const buscarPaciente = async () => {
       try {
-        const paciente = await PacienteService.detalharPaciente(idPaciente ? idPaciente : pacienteSelecionado.id);
+        const paciente = await PacienteService.detalharPaciente(idPaciente);
         setPacienteData(paciente);
-        idPaciente ? buscarDieta(paciente) : null;
       } catch (error) {
         console.error(error);
       }
     };
+    if (idPaciente) {
+      buscarPaciente();
+    }
+  }, [idPaciente]);
 
-    const buscarDieta = async (paciente) => {
+  useEffect(() => {
+    const buscarDieta = async () => {
       try {
         const dietas = await DietaService.buscarDietasPorPaciente(paciente.pac_nome);
         const dieta = dietas.data.find(dieta => dieta.die_id == idDieta)
@@ -62,10 +65,10 @@ const Dietas = () => {
       }
     };
 
-    if (pacienteSelecionado || idPaciente) {
-      buscarPaciente();
+    if (idDieta) {
+      buscarDieta();
     }
-  }, [pacienteSelecionado, idPaciente]);
+  }, [idDieta]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -126,6 +129,7 @@ const Dietas = () => {
       }
 
       const dietaDataCopy = { ...dietaData };
+      dietaDataCopy.pac_id = idPaciente;
       dietaDataCopy.die_data = getFormattedDate();
 
       await DietaService.atualizarDieta(dietaDataCopy, idDieta);
@@ -151,7 +155,8 @@ const Dietas = () => {
   };
 
   const onSelect = (paciente) => {
-    setPacienteSelecionado(paciente);
+    navigate(`/pacientes/${paciente.id}/dietas`);
+    // setPacienteSelecionado(paciente);
   };
 
   return (
@@ -166,7 +171,7 @@ const Dietas = () => {
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
               <h2 className="mb-0 text-blue">{idDieta ? 'Atualização' : 'Cadastro'} de Dieta</h2>
             </div>
-            {!idDieta && <div className="input-group mb-3">
+            <div className="input-group mb-3">
               <Autocomplete
                 id="autocomplete-paciente"
                 placeholder="Digite o nome do paciente"
@@ -179,7 +184,7 @@ const Dietas = () => {
               >
                 <i className="bi bi-search"></i>
               </button>
-            </div>}
+            </div>
 
             {pacienteData && pacienteData.pac_id && (
               <form className="mt-5" onSubmit={handleSubmit} id="form-dietas">
@@ -188,7 +193,7 @@ const Dietas = () => {
                     Dieta de: {pacienteData && pacienteData.pac_nome}
                   </span>
                   <div className="d-flex">
-                    {idPaciente && (
+                    {idDieta && (
                       <>
                         <button
                           type="button"
@@ -200,7 +205,7 @@ const Dietas = () => {
                       </>
                     )}
                     <button
-                      disabled={!idPaciente}
+                      disabled={!idDieta}
                       type="button"
                       className="btn btn-secondary me-2"
                       onClick={handleUpdate}
@@ -208,14 +213,14 @@ const Dietas = () => {
                       <i className="bi bi-pencil"></i> Salvar Edição
                     </button>
                     <button
-                      disabled={!idPaciente}
+                      disabled={!idDieta}
                       type="button"
                       className="btn btn-danger me-2"
                       onClick={handleDelete}
                     >
                       <i className="bi bi-trash"></i> Deletar
                     </button>
-                    {!idPaciente && (
+                    {!idDieta && (
                       <button type="submit" className="btn btn-primary">
                         <i className="bi bi-save"></i> Criar
                       </button>

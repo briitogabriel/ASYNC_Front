@@ -77,8 +77,8 @@ const DetalhaProntuario = () => {
 
         const fetchMedicamentos = async (paciente) => {
             try {
-                const exercicios = await MedicamentoService.listarMedicamentosPorPaciente(paciente.pac_nome)
-                setExercicios(exercicios);
+                const medicamentos = await MedicamentoService.listarMedicamentosPorPaciente(paciente.pac_nome)
+                setMedicamentos(medicamentos);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os medicamentos');
