@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
-import { LocalStorageService } from '../services/LocalStorage.service';
 import { AuthContext } from '../contexts/auth.context';
 import { useContext } from 'react';
 
