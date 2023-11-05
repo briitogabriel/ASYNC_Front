@@ -65,9 +65,25 @@ const deletarDieta = (idDieta) => {
   });
 };
 
+const listarDietas = () => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/admin`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    },
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao detalhar dados da dieta");
+  });
+}
+
 export const DietaService = {
   criarDieta,
   buscarDietasPorPaciente,
   atualizarDieta,
   deletarDieta,
+  listarDietas
 };

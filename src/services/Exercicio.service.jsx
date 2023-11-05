@@ -65,9 +65,25 @@ const deletarExercicio = (idExercicio) => {
   });
 };
 
+const listarExercicios = () => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/admin`, {
+    headers: {
+      'Authorization': LocalStorageService.get('token')
+    },
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error.response.data)
+    throw new Error("Erro ao detalhar dados do exercicio");
+  });
+}
+
 export const ExercicioService = {
   criarExercicio,
   buscarExerciciosPorPaciente,
   atualizarExercicio,
   deletarExercicio,
+  listarExercicios
 };
