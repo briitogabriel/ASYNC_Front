@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Menu from '../../../assets/menu.png';
 import { SidebarData } from '../SidebarData/SidebarData';
@@ -6,15 +6,20 @@ import Close from '../../../assets/fechar.png'
 import Logo from '../../../assets/ASYNClab.png'
 import './Navbar.css';
 import Toolbar from '../../Toolbar/Toolbar.page';
+import { AuthContext } from '../../../contexts/auth.context';
 // import Toolbar from '../../Toolbar/Toolbar';
 // import { AuthService } from '../../../services/AuthService';
 
 function Navbar(){
-
+  const {setAuth} = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleOut= () =>{
-    // AuthService.Set(null)
+    setAuth({
+      user: {},
+      token: '',
+      isLogged: false
+    });
     navigate('/usuarios/login')
   }
 
