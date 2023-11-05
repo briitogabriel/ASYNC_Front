@@ -9,6 +9,7 @@ import { CardPaciente } from "../../components/CardPaciente/CardPaciente";
 import { useForm } from "react-hook-form";
 import "./Home.style.css";
 import { UserService } from "../../services/Usuario.service";
+import Message from '../../components/Message/Message';
 
 export const HomePage = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -99,6 +100,7 @@ export const HomePage = () => {
   return (
     <div>
       <Navbar />
+      <Message/>
       <div className="container mt-3">
         {/* {usuarios.forEach((usuario) => usuario.permissao === 1 &&)} */}
           <h3 className="text-center title">Estatísticas de usuários</h3>
