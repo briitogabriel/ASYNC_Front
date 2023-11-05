@@ -8,13 +8,20 @@ O Async é um software de gestão médica desenvolvida para auxiliar na administ
 
 O objetivo principal é oferecer uma plataforma que simplifique processos de atendimento, gerenciamento de consultas, exames e prontuários de paciente.
 
-#####Funcionalidades Principais
+##### Funcionalidades Principais
 
 - Cadastro e gerenciamento de pacientes
 - Cadastro e gerenciamento de exames
 - Cadastro e gerenciamento de consultas
+- Cadastro e gerenciamento de dietas
+- Cadastro e gerenciamento de exercicios
+- Cadastro e gerenciamento de medicamentos
 - Dashboard com estatísticas da quantidade de pacientes cadastrados, consultas e exames realizados
 - Página e listagem de prontuários
+
+## Pré Requisitos
+
+- NodeJS 18
 
 ## Instalação
 
