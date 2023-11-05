@@ -36,13 +36,13 @@ export const SidebarData =  [
   },
   {
     title: 'Cadastro de Dieta',
-    path: '/cadastrar-dieta',
+    path: '/dietas',
     icon: <FaIcon.FaAppleAlt style={style}/>,
     cName: 'nav-text',
   },
   {
     title: 'Cadastro de Exercício',
-    // path: '/cadastrar-dieta',
+    path: '/exercicios',
     icon: <FaIcon.FaRunning style={style}/>,
     cName: 'nav-text',
   },
