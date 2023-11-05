@@ -8,6 +8,7 @@ import { ConsultaService } from '../../services/Consultas.service';
 import { formatStringToDate } from "../../utils/DateUtils";
 import { DietaService } from '../../services/Dieta.service';
 import { ExercicioService } from '../../services/Exercicio.service';
+import { MedicamentoService } from '../../services/Medicamentos.service';
 import Navbar from '../../components/MenuLateral/Navbar/Navbar';
 
 const DetalhaProntuario = () => {
@@ -15,6 +16,7 @@ const DetalhaProntuario = () => {
     const [pacienteData, setPacienteData] = useState({});
     const [consultas, setConsultas] = useState([]);
     const [exames, setExames] = useState([]);
+    const [medicamentos, setMedicamentos] = useState([]);
     const [dietas, setDietas] = useState(null);
     const [exercicios, setExercicios] = useState(null);
     const { showToast } = useToast();
@@ -26,6 +28,7 @@ const DetalhaProntuario = () => {
                 setPacienteData(paciente);
                 fetchDietas(paciente);
                 fetchExercicios(paciente);
+                fetchMedicamentos(paciente);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os dados do paciente');
@@ -69,6 +72,16 @@ const DetalhaProntuario = () => {
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os exercicios');
+            }
+        };
+
+        const fetchMedicamentos = async (paciente) => {
+            try {
+                const exercicios = await MedicamentoService.listarMedicamentosPorPaciente(paciente.pac_nome)
+                setExercicios(exercicios);
+            } catch (error) {
+                console.error(error);
+                showToast('Falha ao buscar os medicamentos');
             }
         };
 
@@ -167,7 +180,7 @@ const DetalhaProntuario = () => {
                                             </span>
                                             <Link to={`/pacientes/${pacienteData.pac_id}/exames/${exame.exa_id}`}>
                                                 <button type="button" className="btn btn-secondary">
-                                                    <i className="bi bi-search"></i>
+                                                    <i className="bi bi-search"> Editar </i>
                                                 </button>
                                             </Link>
                                         </li>
@@ -185,7 +198,7 @@ const DetalhaProntuario = () => {
                                 <a data-bs-toggle="collapse" href="#dietasCollapse" role="button" aria-expanded="false" aria-controls="dietasCollapse">
                                     <h5 className="card-title" style={{color: 'black'}}>Dietas</h5>
                                 </a>
-                                <Link to={`/dietas`}>
+                                <Link to={`/pacientes/${idPaciente}/dietas`}>
                                     <button type="button" className="btn btn-info">
                                         <i className="bi bi-clipboard-pulse"></i> Cadastrar
                                     </button>
@@ -202,7 +215,7 @@ const DetalhaProntuario = () => {
                                             </span>
                                             <Link to={`/pacientes/${pacienteData.pac_id}/dietas/${dieta.die_id}`}>
                                                 <button type="button" className="btn btn-secondary">
-                                                    <i className="bi bi-search"></i>
+                                                    <i className="bi bi-search"> Editar </i>
                                                 </button>
                                             </Link>
                                         </li>
@@ -220,7 +233,7 @@ const DetalhaProntuario = () => {
                                 <a data-bs-toggle="collapse" href="#exerciciosCollapse" role="button" aria-expanded="false" aria-controls="exerciciosCollapse">
                                     <h5 className="card-title" style={{color: 'black'}}>Exercicios</h5>
                                 </a>
-                                <Link to={`/exercicios`}>
+                                <Link to={`/pacientes/${idPaciente}/exercicios`}>
                                     <button type="button" className="btn btn-info">
                                         <i className="bi bi-clipboard-pulse"></i> Cadastrar
                                     </button>
@@ -237,7 +250,7 @@ const DetalhaProntuario = () => {
                                             </span>
                                             <Link to={`/pacientes/${pacienteData.pac_id}/exercicios/${exercicio.exe_id}`}>
                                                 <button type="button" className="btn btn-secondary">
-                                                    <i className="bi bi-search"></i>
+                                                    <i className="bi bi-search"> Editar </i>
                                                 </button>
                                             </Link>
                                         </li>
@@ -246,6 +259,42 @@ const DetalhaProntuario = () => {
                             ) : (
                                 <div className="card-body collapse show" id="exerciciosCollapse">
                                     <p>Nenhum exercicio registrado</p>
+                                </div>
+                            )}
+                        </div>
+
+                        
+                        <div className="card mt-4">
+                            <div className="card-body d-flex justify-content-between align-items-center">
+                                <a data-bs-toggle="collapse" href="#medicamentosCollapse" role="button" aria-expanded="false" aria-controls="medicamentosCollapse">
+                                    <h5 className="card-title" style={{color: 'black'}}>Medicamentos</h5>
+                                </a>
+                                <Link to={`/pacientes/${idPaciente}/medicamentos`}>
+                                    <button type="button" className="btn btn-info">
+                                        <i className="bi bi-clipboard-pulse"></i> Cadastrar
+                                    </button>
+                                </Link>
+                            </div>
+                            {medicamentos.length > 0 ? (
+                                <ul className="list-group p-3 collapse show" id="medicamentosCollapse">
+                                    {medicamentos.slice(0, 5).map((medicamento) => (
+                                        <li key={medicamento.exa_id} className="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>
+                                                <span className="fw-bold">Data:</span> {formatStringToDate(medicamento.exa_data)}
+                                                <span className="fw-bold">- Horário:</span> {medicamento.exa_hora}
+                                                <span className="fw-bold">- Tipo:</span> {medicamento.exa_tipo}
+                                            </span>
+                                            <Link to={`/pacientes/${pacienteData.pac_id}/medicamentos/${medicamento.exa_id}`}>
+                                                <button type="button" className="btn btn-secondary">
+                                                    <i className="bi bi-search"> Editar </i>
+                                                </button>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div className="card-body collapse show" id="medicamentosCollapse">
+                                    <p>Nenhum medicamento registrado</p>
                                 </div>
                             )}
                         </div>
