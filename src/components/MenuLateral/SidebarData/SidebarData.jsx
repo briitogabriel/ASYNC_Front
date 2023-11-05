@@ -36,7 +36,7 @@ export const SidebarData =  [
   },
   {
     title: 'Cadastro de Dieta',
-    path: '/cadastrar-dieta',
+    path: '/dietas',
     icon: <FaIcon.FaAppleAlt style={style}/>,
     cName: 'nav-text',
   },
