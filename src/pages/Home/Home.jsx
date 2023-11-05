@@ -1,6 +1,6 @@
 
 import Navbar from '../../components/MenuLateral/Navbar/Navbar';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CardEstatistica } from "../../components/CardEstatistica/CardEstatistica.component";
 import { PacienteService } from "../../services/Paciente.service";
 import { ConsultaService } from "../../services/Consultas.service";
@@ -10,9 +10,11 @@ import { useForm } from "react-hook-form";
 import "./Home.style.css";
 import { UserService } from "../../services/Usuario.service";
 import Message from '../../components/Message/Message';
+import { AuthContext } from '../../contexts/auth.context';
 
 export const HomePage = () => {
   const { register, handleSubmit, reset } = useForm();
+  const {auth} = useContext(AuthContext);
 
   const [qtdUsuarios, setQtdUsuarios] = useState({
     admins: 0,
@@ -102,25 +104,28 @@ export const HomePage = () => {
       <Navbar />
       <Message/>
       <div className="container mt-3">
-        {/* {usuarios.forEach((usuario) => usuario.permissao === 1 &&)} */}
+        {auth.user.per_id === 1 && 
+        <div>
           <h3 className="text-center title">Estatísticas de usuários</h3>
-            <div className="row mt-3 justify-content-evenly">
-              <CardEstatistica
-                icon="bi-person-gear"
-                value={qtdUsuarios.admins}
-                label="Administradores"
-              />
-              <CardEstatistica
-                icon="bi-person"
-                value={qtdUsuarios.medicos}
-                label="Médicos"
-              />
-              <CardEstatistica
-                icon="bi-person"
-                value={qtdUsuarios.enfermeiros}
-                label="Enfermeiros"
-              />
-            </div>
+              <div className="row mt-3 justify-content-evenly">
+                <CardEstatistica
+                  icon="bi-person-gear"
+                  value={qtdUsuarios.admins}
+                  label="Administradores"
+                />
+                <CardEstatistica
+                  icon="bi-person"
+                  value={qtdUsuarios.medicos}
+                  label="Médicos"
+                />
+                <CardEstatistica
+                  icon="bi-person"
+                  value={qtdUsuarios.enfermeiros}
+                  label="Enfermeiros"
+                />
+              </div>
+        </div>
+        }
         <div className="mt-3">
           <h3 className="text-center title">Estatísticas do sistema</h3>
         </div>
