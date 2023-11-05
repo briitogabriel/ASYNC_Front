@@ -19,14 +19,14 @@ export const CardPaciente = ({className, paciente}) => {
     return (
         <div className={className}>
             <div className="card">
-                <div className="card-body">
+                <div className="card-body d-flex-col">
                     <h4 className="card-title"><i className={`fs-1 bi bi-person-circle`}></i> {paciente.pac_nome}</h4>
-                    <div className="mt-4 ">
+                    <div className="mt-4 align-items-center">
                         <p><span className="fw-bold">Idade: </span> {getAge()}</p>
-                        <p><span className="fw-bold">Convênio: </span> {paciente.pac_convenio}</p>
+                        <p><span className="fw-bold">Convênio: </span> {paciente.pac_convenio ? paciente.pac_convenio : 'NA'}</p>
                         <p><span className="fw-bold">Telefone: </span> {paciente.pac_telefone}</p>
                         <div className="text-center">
-                            <Link to={`/pacientes/${paciente.pac_id}`} className="btn btn-sm btn-primary btn-warning"><i className="bi bi-file-earmark-person"></i> Ver mais </Link>
+                            <Link to={`/pacientes/${paciente.pac_id}`} className="btn btn-sm"><i className="bi bi-file-earmark-person"></i> Ver mais </Link>
                         </div>
                     </div>
                 </div>
