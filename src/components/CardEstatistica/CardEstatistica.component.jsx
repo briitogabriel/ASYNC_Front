@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export const CardEstatistica = ({icon, value, label}) => {
     return (
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <div className="card text-center">
                     <div className="card-body">
                         <i className={`fs-1 bi ${icon}`}></i>

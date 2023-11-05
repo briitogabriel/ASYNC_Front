@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Dietas from "../pages/Dietas/Dietas.page.jsx";
 import Exercicios from '../pages/Exercicios/Exercicios.page.jsx';
 import Login from '../pages/Login/Login.page.jsx';
-import { HomePage } from '../pages/Home/Home.jsx'
 import Exames from '../pages/Exames/Exames.page.jsx';
 import Usuario from "../pages/Usuario/Usuario.page";
 import DetalhaProntuario from "../pages/DetalhaProntuario/DetalhaProntuario.page";
@@ -14,14 +13,16 @@ import Toolbar from '../components/Toolbar/Toolbar.page.jsx';
 import { PacientesPage } from '../pages/Pacientes/Pacientes.page.jsx';
 import { MedicamentosPage } from '../pages/Medicamentos/Medicamentos.page.jsx';
 import { ConsultaPage } from '../pages/Consulta/Consulta.page.jsx';
+import { HomePage } from '../pages/Home/Home.jsx';
+
 export const AppRoutes = () => {
 
   return (
   <ToastProvider>
       <Routes>               
-        <Route path="/home" element={<HomePage />} />
         <Route path="/usuarios/login" element={<Login />} />
         <Route path="/">
+          <Route index element={<HomePage />} />
           <Route path="/lateralmenu" element={<Navbar/>}/>
           <Route path="/toolbar" element={<Toolbar/>}/>
           <Route path="/dietas" element={<Dietas />} />

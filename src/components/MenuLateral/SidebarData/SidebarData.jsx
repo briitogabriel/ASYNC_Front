@@ -6,7 +6,7 @@ const style = { color: "var(--black-purple)"};
 export const SidebarData =  [
   {
     title: 'Home',
-    path: '/home',
+    path: '/',
     icon: <FaIcon.FaClinicMedical style={style}/>,
     cName: 'nav-text',
   },
