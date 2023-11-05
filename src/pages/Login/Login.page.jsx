@@ -15,7 +15,7 @@ export const Login = () => {
     email: Yup.string()
       .required('E-mail é obrigatório')
       .email('Email inválido'),
-    password: Yup.string()
+    senha: Yup.string()
       .required('Senha é obrigatória')
 
   })
@@ -84,7 +84,6 @@ export const Login = () => {
           <div className='bottom-login'>
             <p className="obs">Não possui conta?? <a className="click" onClick={() => alert('Por favor, contate o seu administrador para realização de cadastro de novo usúario.')}> Clique aqui para mais informações.</a></p>
           </div>
-
         </div>
       </main>
     </div>

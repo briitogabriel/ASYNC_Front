@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
-const criarDieta = (dieta) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas`, dieta, {
+const criarExercicio = (exercicio) => {
+  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios`, exercicio, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -17,8 +17,8 @@ const criarDieta = (dieta) => {
   });
 };
 
-const buscarDietasPorPaciente = (nomePaciente) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${nomePaciente}`, {
+const buscarExerciciosPorPaciente = (nomePaciente) => {
+  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${nomePaciente}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -29,12 +29,12 @@ const buscarDietasPorPaciente = (nomePaciente) => {
   })
   .catch((error) => {
     console.log(error)
-    throw new Error("Erro ao detalhar dados da dieta", error);
+    throw new Error("Erro ao detalhar dados do exercicio", error);
   });
 };
 
-const atualizarDieta = (dietaData, idDieta) => {
-  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, dietaData, {
+const atualizarExercicio = (exercicioData, idExercicio) => {
+  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, exercicioData, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -45,12 +45,12 @@ const atualizarDieta = (dietaData, idDieta) => {
   })
   .catch((error) => {
     console.log(error)
-    throw new Error("Erro ao atualizar dados da dieta", error);
+    throw new Error("Erro ao atualizar dados do exercicio", error);
   });
 };
 
-const deletarDieta = (idDieta) => {
-  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, {
+const deletarExercicio = (idExercicio) => {
+  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -61,13 +61,13 @@ const deletarDieta = (idDieta) => {
   })
   .catch((error) => {
     console.log(error)
-    throw new Error("Erro ao deletar dieta", error);
+    throw new Error("Erro ao deletar exercicio", error);
   });
 };
 
-export const DietaService = {
-  criarDieta,
-  buscarDietasPorPaciente,
-  atualizarDieta,
-  deletarDieta,
+export const ExercicioService = {
+  criarExercicio,
+  buscarExerciciosPorPaciente,
+  atualizarExercicio,
+  deletarExercicio,
 };
