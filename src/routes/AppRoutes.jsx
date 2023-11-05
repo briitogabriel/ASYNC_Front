@@ -13,6 +13,7 @@ import { MedicamentosPage } from '../pages/Medicamentos/Medicamentos.page.jsx';
 import { ConsultaPage } from '../pages/Consulta/Consulta.page.jsx';
 import { HomePage } from '../pages/Home/Home.jsx';
 import { PrivateRoutes } from './PrivateRoutes.jsx';
+import Exercicios from '../pages/Exercicios/Exercicios.page.jsx';
 
 export const AppRoutes = () => {
 
@@ -49,6 +50,20 @@ export const AppRoutes = () => {
           <Route path="/pacientes/:idPaciente/dietas/:id" element={
             <PrivateRoutes>
               <Dietas />
+            </PrivateRoutes>} />
+          <Route path="/exercicios" element={
+            <PrivateRoutes>
+              <Exercicios />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/exercicios" element={
+            <PrivateRoutes>
+              <Exercicios />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/exercicios/:id" element={
+            <PrivateRoutes>
+              <Exercicios />
             </PrivateRoutes>} />
           <Route path="/cadastrar-usuario" element={
             <PrivateRoutes>
