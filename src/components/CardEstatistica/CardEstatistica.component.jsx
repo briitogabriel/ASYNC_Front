@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-export const CardEstatistica = ({icon, value, label}) => {
+export const CardEstatistica = ({className, icon, value, label}) => {
     return (
-            <div className="col-md-3">
+            <div className={className}>
                 <div className="card text-center">
                     <div className="card-body">
                         <i className={`fs-1 bi ${icon}`}></i>
@@ -15,6 +15,7 @@ export const CardEstatistica = ({icon, value, label}) => {
 };
 
 CardEstatistica.propTypes = {
+    className: PropTypes.string.isRequired,
     icon: PropTypes.any.isRequired,
     value: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired
