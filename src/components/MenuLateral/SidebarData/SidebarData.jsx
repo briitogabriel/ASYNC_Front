@@ -11,6 +11,12 @@ export const SidebarData =  [
     cName: 'nav-text',
   },
   {
+    title: 'Prontuário',
+    path: '/prontuarios',
+    icon: <BsIcon.BsCapsulePill style={style}/>,
+    cName: 'nav-text',
+  },
+  {
     title: 'Cadastro de Paciente',
     path: '/pacientes',
     icon: <BsIcon.BsFillPersonVcardFill style={style}/>,

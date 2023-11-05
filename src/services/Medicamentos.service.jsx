@@ -63,9 +63,25 @@ const deletarMedicamento = (id) => {
     })
 };
 
+const listarMedicamentosPorPaciente = (user) => {
+    return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos/?userName=${user}`, {
+      headers: {
+        'Authorization': LocalStorageService.get('token')
+      }
+    })
+    .then((res) => {
+      return res.data
+    })
+    .catch((error) => {
+      console.log(error)
+      throw new Error("Erro ao detalhar dados do exame", error);
+    });
+  };
+
 export const MedicamentoService = {
     salvarMedicamento,
     detalharMedicamento,
     atualizarMedicamento,
     deletarMedicamento,
+    listarMedicamentosPorPaciente,
 };

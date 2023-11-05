@@ -8,6 +8,7 @@ import { ConsultaService } from '../../services/Consultas.service';
 import { formatStringToDate } from "../../utils/DateUtils";
 import { DietaService } from '../../services/Dieta.service';
 import { ExercicioService } from '../../services/Exercicio.service';
+import { MedicamentoService } from '../../services/Medicamentos.service';
 import Navbar from '../../components/MenuLateral/Navbar/Navbar';
 
 const DetalhaProntuario = () => {
@@ -15,6 +16,7 @@ const DetalhaProntuario = () => {
     const [pacienteData, setPacienteData] = useState({});
     const [consultas, setConsultas] = useState([]);
     const [exames, setExames] = useState([]);
+    const [medicamentos, setMedicamentos] = useState([]);
     const [dietas, setDietas] = useState(null);
     const [exercicios, setExercicios] = useState(null);
     const { showToast } = useToast();
@@ -26,6 +28,7 @@ const DetalhaProntuario = () => {
                 setPacienteData(paciente);
                 fetchDietas(paciente);
                 fetchExercicios(paciente);
+                fetchMedicamentos(paciente);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os dados do paciente');
@@ -69,6 +72,16 @@ const DetalhaProntuario = () => {
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os exercicios');
+            }
+        };
+
+        const fetchMedicamentos = async (paciente) => {
+            try {
+                const exercicios = await MedicamentoService.listarMedicamentosPorPaciente(paciente.pac_nome)
+                setExercicios(exercicios);
+            } catch (error) {
+                console.error(error);
+                showToast('Falha ao buscar os medicamentos');
             }
         };
 
@@ -254,7 +267,7 @@ const DetalhaProntuario = () => {
                         <div className="card mt-4">
                             <div className="card-body d-flex justify-content-between align-items-center">
                                 <a data-bs-toggle="collapse" href="#medicamentosCollapse" role="button" aria-expanded="false" aria-controls="medicamentosCollapse">
-                                    <h5 className="card-title" style={{color: 'black'}}>medicamentos</h5>
+                                    <h5 className="card-title" style={{color: 'black'}}>Medicamentos</h5>
                                 </a>
                                 <Link to={`/pacientes/${idPaciente}/medicamentos`}>
                                     <button type="button" className="btn btn-info">
