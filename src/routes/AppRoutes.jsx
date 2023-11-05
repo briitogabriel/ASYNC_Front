@@ -20,9 +20,9 @@ export const AppRoutes = () => {
   return (
   <ToastProvider>
       <Routes>               
-        <Route path="/home" element={<HomePage />} />
         <Route path="/usuarios/login" element={<Login />} />
         <Route path="/">
+          <Route index element={<HomePage />} />
           <Route path="/lateralmenu" element={<Navbar/>}/>
           <Route path="/toolbar" element={<Toolbar/>}/>
           <Route path="/cadastrar-dieta" element={<DietaPage />} />
