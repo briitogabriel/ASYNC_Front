@@ -26,7 +26,7 @@ export const CardPaciente = ({className, paciente}) => {
                         <p><span className="fw-bold">Convênio: </span> {paciente.pac_convenio ? paciente.pac_convenio : 'NA'}</p>
                         <p><span className="fw-bold">Telefone: </span> {paciente.pac_telefone}</p>
                         <div className="text-center">
-                            <Link to={`/pacientes/${paciente.pac_id}`} className="btn btn-sm"><i className="bi bi-file-earmark-person"></i> Ver mais </Link>
+                            <Link to={`/prontuarios/${paciente.pac_id}`} className="btn btn-sm"><i className="bi bi-file-earmark-person"></i> Ver mais </Link>
                         </div>
                     </div>
                 </div>
