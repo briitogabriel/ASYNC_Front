@@ -11,8 +11,7 @@ const login = (usuario) => {
     return res.data
   })
   .catch((error) => {
-    console.log(error)
-    throw new Error("Erro ao realizar login", error);
+    console.error(error.response.data.message);
   });
 };
 
