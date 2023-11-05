@@ -91,11 +91,15 @@ export const AppRoutes = () => {
             <PrivateRoutes>
               <MedicamentosPage />
             </PrivateRoutes>}/>
+            <Route path="pacientes/:pacienteId/medicamentos/:id" element={
+            <PrivateRoutes>
+              <MedicamentosPage />
+            </PrivateRoutes>}/>
           <Route path="/consultas" element={
             <PrivateRoutes>
               <ConsultaPage />
             </PrivateRoutes>} />
-           <Route path="/consultas/:idPaciente/consultas" element={
+           <Route path="/pacientes/:idPaciente/consultas" element={
               <PrivateRoutes>
             <ConsultaPage />
             </PrivateRoutes>} />
