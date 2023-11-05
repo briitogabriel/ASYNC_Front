@@ -9,6 +9,7 @@ import { useToast } from "../../contexts/ToastContext";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth.context";
 import { LocalStorageService } from "../../services/LocalStorage.service";
+import Message from "../../components/Message/Message";
 
 export const Login = () => {
   const { showToast } = useToast();
@@ -27,7 +28,6 @@ export const Login = () => {
   const { errors } = formState;
 
   const onSubmit = async (data) => {
-    try {
       const loginData = await UserService.login(data);
 
       if (!loginData) {
@@ -44,20 +44,18 @@ export const Login = () => {
           isLogged: loginData.success,
         });
         navigate("/");
-        return alert("Bem vindo(a)!");
+        showToast("Bem vindo(a)!");
       } else {
-        alert("Usuário não cadastrado");
+        showToast("Usuário não cadastrado");
         reset();
         return;
       }
-    } catch (error) {
-      console.error("Ocorreu um erro na solicitação", error);
-    }
   };
 
   return (
     <div>
       <main>
+        <Message/>
         <div className="content-login">
           <h1 className="tiltle-login">
             <img src={Logo} />
