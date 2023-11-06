@@ -91,7 +91,7 @@ export const PacientesPage = () => {
       <div className="container">
         <ConfirmationModal />
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12" style={{color:"#5f6ab9"}}>
             <div className="d-flex align-items-center mb-4">
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
               <h2 className="mb-0 text-blue">Cadastro de Paciente</h2>
