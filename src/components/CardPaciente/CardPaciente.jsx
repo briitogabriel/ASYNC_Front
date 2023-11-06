@@ -19,7 +19,7 @@ export const CardPaciente = ({className = '', paciente = ''}) => {
     return (
         <div className={className}>
             <div className="card">
-                <div className="card-body d-flex-col">
+                <div className="card-body d-flex-col" style={{color:"#5f6ab9"}}>
                     <h4 className="card-title"><i className={`fs-1 bi bi-person-circle`}></i> {paciente.pac_nome}</h4>
                     <div className="mt-4 align-items-center">
                         <p><span className="fw-bold">Idade: </span> {getAge()}</p>

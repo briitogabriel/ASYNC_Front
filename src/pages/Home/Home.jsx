@@ -223,14 +223,14 @@ export const HomePage = () => {
                 aria-label="Digite o nome do usuário"
                 {...register("usu")}
               />
-              <button
-                className="btn btn-outline-secondary"
+            </div>
+            <button
                 type="submit"
                 id="button-usu"
+                className="btn btn-primary custom-margin"
               >
                 Buscar
-              </button>
-            </div>
+            </button>
           </form>
           <div className="row gap-1 justify-content-center">
             {!usuario ? (
@@ -265,14 +265,15 @@ export const HomePage = () => {
                 aria-describedby="button-addon2"
                 {...register("info")}
               />
-              <button
-                className="btn btn-outline-secondary"
+              
+            </div>
+            <button
+                className="btn btn-primary custom-margin"
                 type="submit"
                 id="button-addon2"
               >
                 Buscar
-              </button>
-            </div>
+            </button>
           </form>
           <div className="row gap-1 justify-content-center">
             {!paciente ? (
