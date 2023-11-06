@@ -10,30 +10,35 @@ import { useToast } from "../../contexts/ToastContext";
 
 
 export const ConsultaPage = () => {
-  const {pacienteId, id} = useParams();
+  const {idPaciente, id} = useParams();
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
   const [pacienteData, setPacienteData] = useState({});
   const [consultaData, setConsultaData] = useState({
-    dataConsulta: getFormattedDate(),
-    horarioConsulta: getFormattedTime(),
+    con_motivo: '',
+    con_data: getFormattedDate(),
+    con_hora: getFormattedTime(),
+    con_descricao: '',
+    con_medicacao: '',
+    con_dosagem_precaucoes: '',
+    pac_id: ''
   });
 
   useEffect(() => {
     const fetchPacienteData = async () => {
         try {
-            const paciente = await PacienteService.detalharPaciente(pacienteId);
+            const paciente = await PacienteService.detalharPaciente(idPaciente);
             setPacienteData(paciente);
         } catch (error) {
             console.error(error);
         }
     };
-    if (pacienteId) {
+    if (idPaciente) {
         fetchPacienteData();
     }
-}, [pacienteId]);
+}, [idPaciente]);
 
     useEffect(() => {
         const fetchConsultaData = async () => {
@@ -55,27 +60,52 @@ export const ConsultaPage = () => {
     setConsultaData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const validateForm = () => {
+    if (consultaData.con_motivo.length == 0 || consultaData.con_data.length == 0 || consultaData.con_hora.length == 0 || consultaData.con_descricao.length == 0 || consultaData.con_dosagem_precaucoes.length == 0) {
+      showToast('Os campos Motivo, Data, Hora, Descrição e Dosagem/Precauções são obrigatórios.');
+      return false;
+    }
+    if (consultaData.con_motivo.length < 8 || consultaData.con_motivo.length > 64) {
+      showToast('O Motivo da Consulta deve conter entre 8 e 64 caracteres.');
+      return false;
+    }
+    if (consultaData.con_descricao.length < 16 || consultaData.con_descricao.length > 1024) {
+      showToast('A Descrição da Consulta deve conter entre 16 e 1024 caracteres.');
+      return false;
+    }
+    if (consultaData.con_dosagem_precaucoes.length < 16 || consultaData.con_dosagem_precaucoes.length > 256) {
+      showToast('A Dosagem/Precauções da Consulta deve conter entre 16 e 256 caracteres.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const consultaDataCopy = {...consultaData};
-        consultaDataCopy.consultaData = getFormattedDate();
-        consultaDataCopy.pac_id = pacienteData.pac_id;
 
-        await ConsultaService.salvarConsulta(JSON.stringify(consultaDataCopy));
+      if (!validateForm()) {
+        return;
+      }
 
-        showToast(`Consulta do paciente "${pacienteData.pac_nome}" cadastrado com sucesso!`);
-        navigate(`/prontuarios/${pacienteData.pac_id}`);
+      const consultaDataCopy = {...consultaData};
+      consultaDataCopy.con_data = getFormattedDate();
+      consultaDataCopy.pac_id = pacienteData.pac_id;
+
+      await ConsultaService.criarConsulta(JSON.stringify(consultaDataCopy));
+
+      showToast(`Consulta do paciente "${pacienteData.pac_nome}" cadastrado com sucesso!`);
+      navigate(`/prontuarios/${pacienteData.pac_id}`);
     } catch (error) {
-        showToast('Erro ao cadastrar consulta');
-        console.error(error)
+      showToast('Erro ao cadastrar consulta');
+      console.error(error)
     }
   };
 
   const handleUpdate = async () => {
     try {
         const consultaDataCopy = {...consultaData};
-        consultaDataCopy.consultaData = getFormattedDate();
+        consultaDataCopy.con_data = getFormattedDate();
         consultaDataCopy.pac_id = pacienteData.pac_id;
 
         await ConsultaService.atualizarConsulta(consultaDataCopy);
@@ -162,45 +192,45 @@ export const ConsultaPage = () => {
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-4">
-                    <label htmlFor="motivoConsulta" className="form-label">
+                    <label htmlFor="con_motivo" className="form-label">
                       Motivo da consulta:
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="motivoConsulta"
-                      name="motivoConsulta"
+                      id="con_motivo"
+                      name="con_motivo"
                       required
                       minLength="8"
                       maxLength="64"
-                      value={consultaData.motivoConsulta}
+                      value={consultaData.con_motivo}
                       onChange={handleChange}
                     />
                   </div>
                   <div className="col-md-4">
-                    <label htmlFor="dataConsulta" className="form-label">
+                    <label htmlFor="con_data" className="form-label">
                       Data da consulta:
                     </label>
                     <input
                       type="date"
                       className="form-control"
-                      id="dataConsulta"
-                      name="dataConsulta"
-                      value={consultaData.dataConsulta}
+                      id="con_data"
+                      name="con_data"
+                      value={consultaData.con_data}
                       onChange={handleChange}
                       required
                     />
                   </div>
                   <div className="col-md-4">
-                    <label htmlFor="horarioConsulta" className="form-label">
+                    <label htmlFor="con_hora" className="form-label">
                       Horário:
                     </label>
                     <input
                       type="time"
                       className="form-control"
-                      id="horarioConsulta"
-                      name="horarioConsulta"
-                      value={consultaData.horarioConsulta}
+                      id="con_hora"
+                      name="con_hora"
+                      value={consultaData.con_hora}
                       onChange={handleChange}
                       required
                     />
@@ -208,18 +238,18 @@ export const ConsultaPage = () => {
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-12">
-                    <label htmlFor="descricaoProblema" className="form-label">
+                    <label htmlFor="con_descricao" className="form-label">
                       Descrição do Problema:
                     </label>
                     <input
                       type='text'
                       className="form-control"
-                      id="descricaoProblema"
-                      name="descricaoProblema"
+                      id="con_descricao"
+                      name="con_descricao"
                       required
-                      minLength="8"
-                      maxLength="64"
-                      value={consultaData.descricaoProblema}
+                      minLength="16"
+                      maxLength="1024"
+                      value={consultaData.con_descricao}
                       onChange={handleChange}
                     ></input>
                   </div>
@@ -227,18 +257,15 @@ export const ConsultaPage = () => {
 
                 <div className="row mb-3">
                   <div className="col-md-12">
-                    <label htmlFor="medicacaoReceitada" className="form-label">
+                    <label htmlFor="con_medicacao" className="form-label">
                       Medicação Receitada:
                     </label>
                     <input
                       type='text'
                       className="form-control"
-                      id="medicacaoReceitada"
-                      name="medicacaoReceitada"
-                      required
-                      minLength="8"
-                      maxLength="64"
-                      value={consultaData.medicacaoReceitada}
+                      id="con_medicacao"
+                      name="con_medicacao"
+                      value={consultaData.con_medicacao}
                       onChange={handleChange}
                     ></input>
                   </div>
@@ -246,37 +273,18 @@ export const ConsultaPage = () => {
 
                 <div className="row mb-3">
                   <div className="col-md-12">
-                    <label htmlFor="dosagemPrecaucoes" className="form-label">
+                    <label htmlFor="con_dosagem_precaucoes" className="form-label">
                       Dosagem e Precauções:
                     </label>
                     <input
                       type='text'
                       className="form-control"
-                      id="dosagemPrecaucoes"
-                      name="dosagemPrecaucoes"
+                      id="con_dosagem_precaucoes"
+                      name="con_dosagem_precaucoes"
                       required
-                      minLength="8"
-                      maxLength="64"
-                      value={consultaData.dosagemPrecaucoes}
-                      onChange={handleChange}
-                    ></input>
-                  </div>
-                </div>
-
-                <div className="row mb-3">
-                  <div className="col-md-12">
-                    <label htmlFor="statusSistema" className="form-label">
-                      Status do Sistema:
-                    </label>
-                    <input
-                      type='text'
-                      className="form-control"
-                      id="statusSistema"
-                      name="statusSistema"
-                      required
-                      minLength="8"
-                      maxLength="64"
-                      value={consultaData.statusSistema}
+                      minLength="16"
+                      maxLength="256"
+                      value={consultaData.con_dosagem_precaucoes}
                       onChange={handleChange}
                     ></input>
                   </div>

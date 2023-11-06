@@ -4,6 +4,7 @@ import { LocalStorageService } from './LocalStorage.service';
 const criarConsulta = (data) => {
   return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas`, data, {
     headers: {
+      'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
     }
   })
@@ -35,7 +36,6 @@ const detalharConsulta = (id) => {
 const salvarConsulta = (consulta) => {  
   return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas`, consulta, {
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
     }
   })
