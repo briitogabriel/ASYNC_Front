@@ -176,7 +176,7 @@ const Exercicios = () => {
           <div className="col-md-12">
             <div className="d-flex align-items-center mb-4">
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
-              <h2 className="mb-0 text-blue">{idDieta ? 'Atualização' : 'Cadastro'}  de Exercicio</h2>
+              <h2 className="mb-0 text-blue">{idExercicio ? 'Atualização' : 'Cadastro'}  de Exercicio</h2>
             </div>
             <div className="input-group mb-3">
               <Autocomplete
