@@ -104,9 +104,9 @@ export const HomePage = () => {
       if (data.info) {
         const paciente = pacientes.filter(
         (paciente) =>
-          data.info === paciente.pac_nome ||
-          data.info === paciente.pac_telefone ||
-          data.info === paciente.pac_email
+          paciente.pac_nome.includes(data.info)||
+          paciente.pac_telefone === (data.info) ||
+          paciente.pac_email === (data.info)
       );
 
       if (!paciente) {
@@ -119,9 +119,9 @@ export const HomePage = () => {
       if (data.usu) {
         const usuario = usuarios.filter(
           (usuario) => 
-            data.usu === usuario.nome ||
-            data.usu === usuario.telefone ||
-            data.usu === usuario.email
+            usuario.nome.includes(data.usu) ||
+            usuario.telefone === data.usu ||
+            usuario.email === data.usu
         );
 
         if (!usuario) {
