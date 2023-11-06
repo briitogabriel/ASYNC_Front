@@ -28,6 +28,7 @@ O objetivo principal é oferecer uma plataforma que simplifique processos de ate
 1. Clone o repositório: `git@github.com:FullStack-Trindade/M3P-FrontEnd-Squad4.git`
 2. Acesse o diretório do projeto: `cd M3P-FrontEnd-Squad4`
 3. Instale as dependências: `npm install`
+4. Renomeie o arquivo `.env.example` para `.env` e insira as configurações de rota do backend conforme preferência
 5. Inicie o projeto com o comando: `npm run dev`
 
 ## Uso
