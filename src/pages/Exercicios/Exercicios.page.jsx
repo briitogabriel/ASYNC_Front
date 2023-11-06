@@ -22,7 +22,7 @@ const Exercicios = () => {
     { value: 'Outro', label: 'Outro' },
   ];
 
-  const { idPaciente, idExercicio } = null || useParams();
+  const { idPaciente, idExercicio } = useParams();
   const navigate = useNavigate();
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
@@ -54,8 +54,9 @@ const Exercicios = () => {
   }, [idPaciente]);
 
   useEffect(() => {
-    const buscarExercicio = async (paciente) => {
+    const buscarExercicio = async () => {
       try {
+        const paciente = await PacienteService.detalharPaciente(idPaciente);
         const exercicios = await ExercicioService.buscarExerciciosPorPaciente(paciente.pac_nome);
         const exercicio = exercicios.data.find(exercicio => exercicio.exe_id == idExercicio)
         setExercicioData(exercicio);
@@ -65,10 +66,10 @@ const Exercicios = () => {
       }
     };
 
-    if (idDieta) {
+    if (idExercicio) {
       buscarExercicio();
     }
-  }, [idDieta]);
+  }, [idExercicio]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,7 +176,7 @@ const Exercicios = () => {
           <div className="col-md-12">
             <div className="d-flex align-items-center mb-4">
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
-              <h2 className="mb-0 text-blue">{idExercicio ? 'Atualização' : 'Cadastro'} de Exercicio</h2>
+              <h2 className="mb-0 text-blue">{idDieta ? 'Atualização' : 'Cadastro'}  de Exercicio</h2>
             </div>
             <div className="input-group mb-3">
               <Autocomplete
@@ -199,7 +200,7 @@ const Exercicios = () => {
                     Exercicio de: {pacienteData && pacienteData.pac_nome}
                   </span>
                   <div className="d-flex">
-                    {idDieta && (
+                    {idExercicio && (
                       <>
                         <button
                           type="button"
@@ -211,7 +212,7 @@ const Exercicios = () => {
                       </>
                     )}
                     <button
-                      disabled={!idDieta}
+                      disabled={!idExercicio}
                       type="button"
                       className="btn btn-secondary me-2"
                       onClick={handleUpdate}
@@ -219,14 +220,14 @@ const Exercicios = () => {
                       <i className="bi bi-pencil"></i> Salvar Edição
                     </button>
                     <button
-                      disabled={!idDieta}
+                      disabled={!idExercicio}
                       type="button"
                       className="btn btn-danger me-2"
                       onClick={handleDelete}
                     >
                       <i className="bi bi-trash"></i> Deletar
                     </button>
-                    {!idDieta && (
+                    {!idExercicio && (
                       <button type="submit" className="btn btn-primary">
                         <i className="bi bi-save"></i> Criar
                       </button>

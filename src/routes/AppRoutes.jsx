@@ -47,7 +47,7 @@ export const AppRoutes = () => {
               <Dietas />
             </PrivateRoutes>
           } />
-          <Route path="/pacientes/:idPaciente/dietas/:id" element={
+          <Route path="/pacientes/:idPaciente/dietas/:idDieta" element={
             <PrivateRoutes>
               <Dietas />
             </PrivateRoutes>} />
@@ -61,7 +61,7 @@ export const AppRoutes = () => {
               <Exercicios />
             </PrivateRoutes>
           } />
-          <Route path="/pacientes/:idPaciente/exercicios/:id" element={
+          <Route path="/pacientes/:idPaciente/exercicios/:idExercicio" element={
             <PrivateRoutes>
               <Exercicios />
             </PrivateRoutes>} />
@@ -95,6 +95,10 @@ export const AppRoutes = () => {
               <Exames />
             </PrivateRoutes>} />
           <Route path="/pacientes" element={
+            <PrivateRoutes>
+              <PacientesPage />
+            </PrivateRoutes>} />
+          <Route path="/pacientes/:pacienteId" element={
             <PrivateRoutes>
               <PacientesPage />
             </PrivateRoutes>} />

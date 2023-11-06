@@ -23,7 +23,7 @@ const Dietas = () => {
     { value: 'Outra', label: 'Outra' },
   ];
 
-  const { idPaciente, idDieta } = null || useParams();
+  const { idPaciente, idDieta } = useParams();
   const navigate = useNavigate();
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
@@ -56,6 +56,7 @@ const Dietas = () => {
   useEffect(() => {
     const buscarDieta = async () => {
       try {
+        const paciente = await PacienteService.detalharPaciente(idPaciente);
         const dietas = await DietaService.buscarDietasPorPaciente(paciente.pac_nome);
         const dieta = dietas.data.find(dieta => dieta.die_id == idDieta)
         setDietaData(dieta);
