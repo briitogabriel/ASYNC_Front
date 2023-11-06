@@ -14,6 +14,7 @@ import { ConsultaPage } from '../pages/Consulta/Consulta.page.jsx';
 import { HomePage } from '../pages/Home/Home.jsx';
 import { PrivateRoutes } from './PrivateRoutes.jsx';
 import Exercicios from '../pages/Exercicios/Exercicios.page.jsx';
+import { Resetar } from '../pages/Resetar/Resetar.page.jsx';
 
 export const AppRoutes = () => {
 
@@ -21,6 +22,7 @@ export const AppRoutes = () => {
   <ToastProvider>
       <Routes>               
         <Route path="/usuarios/login" element={<Login />} />
+        <Route path="/resetar-senha" element={<Resetar />} />
         <Route path="/">
             <Route index element={
               <PrivateRoutes>
