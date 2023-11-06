@@ -74,7 +74,7 @@ const listarMedicamentosPorPaciente = (user) => {
     })
     .catch((error) => {
       console.log(error)
-      throw new Error("Erro ao detalhar dados do exame", error);
+      throw new Error("Erro ao detalhar dados do medicamento", error);
     });
   };
 const listarMedicamentos = () => {
