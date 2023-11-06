@@ -4,17 +4,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Logo from "../../assets/ASYNClab.png";
 import { UserService } from "../../services/Usuario.service";
-import "./Login.css";
+import "./Resetar.css";
 import { useToast } from "../../contexts/ToastContext";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth.context";
-import { LocalStorageService } from "../../services/LocalStorage.service";
+// import { LocalStorageService } from "../../services/LocalStorage.service";
 import Message from "../../components/Message/Message";
 
-export const Login = () => {
+export const Resetar = () => {
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+  // const { setAuth } = useContext(AuthContext);
 
   const formSchema = Yup.object().shape({
     email: Yup.string()
@@ -27,33 +27,61 @@ export const Login = () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
-      const loginData = await UserService.login(data);
+  // const onSubmit = async (data) => {
+  //     const loginData = await UserService.login(data);
 
-      if (!loginData) {
-        showToast("Usuário não cadastrado");
+  //     if (!loginData) {
+  //       showToast("Usuário não cadastrado");
+  //       reset();
+  //       return;
+  //     }
+
+  //     if (loginData.success) {
+  //       LocalStorageService.set("token", loginData.data.token);
+  //       setAuth({
+  //         user: loginData.data.user,
+  //         token: loginData.data.token,
+  //         isLogged: loginData.success,
+  //       });
+  //       navigate("/");
+  //       showToast("Bem vindo(a)!");
+  //     } else {
+  //       showToast("Usuário não cadastrado");
+  //       reset();
+  //       return;
+  //     }
+  // };
+
+  const onSubmit = async (data) => {
+      const usuariosCadastrados = await UserService.getUsers();
+      const usuarioEncontrado = usuariosCadastrados.find(usuario => usuario.email == data.email)
+
+      if (!usuarioEncontrado) {
+        showToast("Usuário não encontrado");
         reset();
         return;
       }
 
-      if (loginData.success) {
-        LocalStorageService.set("token", loginData.data.token);
-        setAuth({
-          user: loginData.data.user,
-          token: loginData.data.token,
-          isLogged: loginData.success,
-        });
+      if (usuarioEncontrado) {
+        const dadosResetar = {
+          usu_id: usuarioEncontrado.usuarioId,
+          usu_email: usuarioEncontrado.email,
+          usu_senha: data.senha
+        }
+
+        await UserService.resetarSenha(JSON.stringify(dadosResetar));
+
         navigate("/");
-        showToast("Bem vindo(a)!");
+        showToast(`Senha do usuário ${usuarioEncontrado.nome} resetada com sucesso!`);
       } else {
-        showToast("Usuário não cadastrado");
+        showToast("Problema no reset de senha.");
         reset();
         return;
       }
   };
 
-  const navigateResetar = () => {
-    navigate(`/resetar-senha`);
+  const navigateLogin = () => {
+    navigate(`/usuarios/login`);
   };
 
   return (
@@ -94,41 +122,22 @@ export const Login = () => {
               </div>
 
               <button type="submit" className="button">
-                <strong>Entrar</strong>
+                <strong>Redefinir Senha</strong>
               </button>
             </form>
           </div>
 
-          {/* Resetar senha */}
           <div className="bottom-login">
             <p className="obs">
-              Esqueceu a senha??{" "}
-              <a className="click" onClick={navigateResetar}>
-                {" "}
-                Crie uma nova aqui!
+              <a className="click" onClick={navigateLogin}>
+                Retornar ao Login
               </a>
             </p>
           </div>
 
-          <div className="bottom-login">
-            <p className="obs">
-              Não possui conta??{" "}
-              <a
-                className="click"
-                onClick={() =>
-                  alert(
-                    "Por favor, contate o seu administrador para realização de cadastro de novo usúario."
-                  )
-                }
-              >
-                {" "}
-                Clique aqui para mais informações.
-              </a>
-            </p>
-          </div>
         </div>
       </main>
     </div>
   );
 };
-export default Login;
+export default Resetar;

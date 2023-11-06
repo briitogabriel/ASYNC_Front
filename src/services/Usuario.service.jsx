@@ -91,12 +91,29 @@ const updateUser = (usuarioId, data) => {
   });
 };
 
+const resetarSenha = (data) => {
+  return axios.patch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/resetar-senha`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': LocalStorageService.get('token')
+    }
+  })
+  .then((res) => {
+    return res.data
+  })
+  .catch((error) => {
+    console.log(error)
+    throw new Error("Erro ao resetar senha do usuário", error);
+  });
+};
+
 export const UserService = {
   login,
   getUsers,
   createUser,
   getUserById,
   deleteUser,
-  updateUser
+  updateUser,
+  resetarSenha
 };
 
