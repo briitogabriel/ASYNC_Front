@@ -96,49 +96,9 @@ export const PacientesPage = () => {
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
               <h2 className="mb-0 text-blue">Cadastro de Paciente</h2>
             </div>
-            <div className="input-group mb-3">
-              <Autocomplete
-                id="autocomplete-paciente"
-                placeholder="Digite o nome do paciente"
-                onChange={onSelect}
-              />
-              <button
-                className="btn btn-primary"
-                type="button"
-                id="buscar-paciente"
-              >
-                <i className="bi bi-search"></i>
-              </button>
-            </div>
-            {pacienteData && pacienteData.pac_id && (
               <form className="mt-5" onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-blue fw-bold fs-4">
-                    Cadastro de: {pacienteData && pacienteData.pac_nome}
-                  </span>
-                  <div className="d-flex">
-                    <button
-                      disabled={!id}
-                      type="button"
-                      className="btn btn-secondary me-2"
-                      onClick={handleUpdate}
-                    >
-                      <i className="bi bi-pencil"></i> Editar
-                    </button>
-                    <button
-                      disabled={!id}
-                      type="button"
-                      className="btn btn-danger me-2"
-                      onClick={handleDelete}
-                    >
-                      <i className="bi bi-trash"></i> Deletar
-                    </button>
-                    {!id && (
-                      <button type="submit" className="btn btn-primary">
-                        <i className="bi bi-save"></i> Salvar
-                      </button>
-                    )}
-                  </div>
+
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-4">
@@ -468,8 +428,30 @@ export const PacientesPage = () => {
                     />
                   </div>
                 </div>
+                <div className="d-flex">
+                    <button
+                      disabled={!id}
+                      type="button"
+                      className="btn btn-secondary me-2"
+                      onClick={handleUpdate}
+                    >
+                      <i className="bi bi-pencil"></i> Editar
+                    </button>
+                    <button
+                      disabled={!id}
+                      type="button"
+                      className="btn btn-danger me-2"
+                      onClick={handleDelete}
+                    >
+                      <i className="bi bi-trash"></i> Deletar
+                    </button>
+                    {!id && (
+                      <button type="submit" className="btn btn-primary">
+                        <i className="bi bi-save"></i> Salvar
+                      </button>
+                    )}
+                  </div>
               </form>
-            )}
           </div>
         </div>
       </div>
