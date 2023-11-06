@@ -56,6 +56,10 @@ const Exames = () => {
         setExameData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    const redirectProntuarios = () => {
+        navigate(`/prontuarios/${idPaciente}`);
+    }
+
     const validateForm = () => {
         if (exameData.exa_resultados.length <= 15 || exameData.exa_resultados.length > 1000) {
             showToast('O Resultado do Exame deve conter entre 15 e 1000 caracteres.');
@@ -80,7 +84,7 @@ const Exames = () => {
             await ExameService.salvarExame(JSON.stringify(exameDataCopy));
 
             showToast(`Exame do paciente "${pacienteData.pac_nome}" cadastrado com sucesso!`);
-            navigate(`/prontuarios/${pacienteData.pac_id}`);
+            redirectProntuarios()
         } catch (error) {
             showToast('Falha ao salvar exame do paciente!');
             console.error(error);
@@ -105,7 +109,7 @@ const Exames = () => {
             await ExameService.atualizarExame(exameDataCopy);
 
             showToast(`Exame do paciente "${pacienteData.pac_nome}" atualizada com sucesso!`);
-            navigate('/home');
+            redirectProntuarios()
         } catch (error) {
             console.error(error);
             showToast('Falha ao atualizar exame do paciente!');
@@ -119,7 +123,7 @@ const Exames = () => {
 
                 await ExameService.deletarExame(id);
                 showToast(`Exame do paciente "${pacienteData.pac_nome}" deletado com sucesso!`);
-                navigate('/home');
+                redirectProntuarios()
             } catch (error) {
                 showToast('Falha ao deletar o exame do paciente!');
             }

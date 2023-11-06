@@ -29,6 +29,7 @@ const DetalhaProntuario = () => {
                 fetchDietas(paciente);
                 fetchExercicios(paciente);
                 fetchMedicamentos(paciente);
+                fetchMedicamentos(paciente);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os dados do paciente');
@@ -77,8 +78,8 @@ const DetalhaProntuario = () => {
 
         const fetchMedicamentos = async (paciente) => {
             try {
-                const exercicios = await MedicamentoService.listarMedicamentosPorPaciente(paciente.pac_nome)
-                setExercicios(exercicios);
+                const medicamentos = await MedicamentoService.listarMedicamentosPorPaciente(idPaciente)
+                setMedicamentos(medicamentos);
             } catch (error) {
                 console.error(error);
                 showToast('Falha ao buscar os medicamentos');
@@ -88,6 +89,7 @@ const DetalhaProntuario = () => {
         fetchPacienteData();
         fetchConsultas();
         fetchExames();
+        fetchMedicamentos();
     }, [idPaciente]);
 
     return (
@@ -278,13 +280,13 @@ const DetalhaProntuario = () => {
                             {medicamentos.length > 0 ? (
                                 <ul className="list-group p-3 collapse show" id="medicamentosCollapse">
                                     {medicamentos.slice(0, 5).map((medicamento) => (
-                                        <li key={medicamento.exa_id} className="list-group-item d-flex justify-content-between align-items-center">
+                                        <li key={medicamento.med_id} className="list-group-item d-flex justify-content-between align-items-center">
                                             <span>
-                                                <span className="fw-bold">Data:</span> {formatStringToDate(medicamento.exa_data)}
-                                                <span className="fw-bold">- Horário:</span> {medicamento.exa_hora}
-                                                <span className="fw-bold">- Tipo:</span> {medicamento.exa_tipo}
+                                                <span className="fw-bold">Data:</span> {formatStringToDate(medicamento.med_data)}
+                                                <span className="fw-bold">- Horário:</span> {medicamento.med_hora}
+                                                <span className="fw-bold">- Tipo:</span> {medicamento.med_tipo}
                                             </span>
-                                            <Link to={`/pacientes/${pacienteData.pac_id}/medicamentos/${medicamento.exa_id}`}>
+                                            <Link to={`/pacientes/${pacienteData.pac_id}/medicamentos/${medicamento.med_id}`}>
                                                 <button type="button" className="btn btn-secondary">
                                                     <i className="bi bi-search"> Editar </i>
                                                 </button>
