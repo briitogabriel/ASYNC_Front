@@ -4,7 +4,7 @@ export const CardUsuario = ({className = '', usuario = ''}) => {
     return (
         <div className={className}>
             <div className="card">
-                <div className="card-body d-flex-col">
+                <div className="card-body d-flex-col" style={{color:"#5f6ab9"}}>
                     <h4 className="card-title"><i className={`fs-1 bi bi-person-circle`}></i> {usuario.nome}</h4>
                     <div className="mt-4">
                         <p><span className="fw-bold">Email: </span>{usuario.email}</p>
