@@ -219,7 +219,7 @@ export const HomePage = () => {
                 name="usu"
                 id="usu"
                 className="form-control"
-                placeholder="Digite o nome completo, telefone ou e-mail do usuário"
+                placeholder="Digite o nome, telefone ou e-mail do usuário"
                 aria-label="Digite o nome do usuário"
                 {...register("usu")}
               />
@@ -260,7 +260,7 @@ export const HomePage = () => {
                 name="info"
                 id="info"
                 className="form-control"
-                placeholder="Digite o nome completo, telefone ou e-mail do paciente"
+                placeholder="Digite o nome, telefone ou e-mail do paciente"
                 aria-label="Digite o nome do paciente"
                 aria-describedby="button-addon2"
                 {...register("info")}
