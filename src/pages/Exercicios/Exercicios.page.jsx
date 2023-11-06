@@ -22,12 +22,11 @@ const Exercicios = () => {
     { value: 'Outro', label: 'Outro' },
   ];
 
-  const { idPaciente, idExercicio } = null || useParams();
+  const { idPaciente, idExercicio } = useParams();
   const navigate = useNavigate();
   const { showConfirm, ConfirmationModal } = useConfirmation();
   const { showToast } = useToast();
 
-  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const [pacienteData, setPacienteData] = useState({});
   const [exercicioData, setExercicioData] = useState({
     exe_nome: '',
@@ -43,16 +42,21 @@ const Exercicios = () => {
 
     const buscarPaciente = async () => {
       try {
-        const paciente = await PacienteService.detalharPaciente(idPaciente ? idPaciente : pacienteSelecionado.id);
+        const paciente = await PacienteService.detalharPaciente(idPaciente);
         setPacienteData(paciente);
-        idPaciente ? buscarExercicio(paciente) : null;
       } catch (error) {
         console.error(error);
       }
     };
+    if (idPaciente) {
+      buscarPaciente();
+    }
+  }, [idPaciente]);
 
-    const buscarExercicio = async (paciente) => {
+  useEffect(() => {
+    const buscarExercicio = async () => {
       try {
+        const paciente = await PacienteService.detalharPaciente(idPaciente);
         const exercicios = await ExercicioService.buscarExerciciosPorPaciente(paciente.pac_nome);
         const exercicio = exercicios.data.find(exercicio => exercicio.exe_id == idExercicio)
         setExercicioData(exercicio);
@@ -62,10 +66,10 @@ const Exercicios = () => {
       }
     };
 
-    if (pacienteSelecionado || idPaciente) {
-      buscarPaciente();
+    if (idExercicio) {
+      buscarExercicio();
     }
-  }, [pacienteSelecionado, idPaciente]);
+  }, [idExercicio]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -158,7 +162,8 @@ const Exercicios = () => {
   };
 
   const onSelect = (paciente) => {
-    setPacienteSelecionado(paciente);
+    navigate(`/pacientes/${paciente.id}/exercicios`);
+    // setPacienteSelecionado(paciente);
   };
 
   return (
@@ -171,9 +176,9 @@ const Exercicios = () => {
           <div className="col-md-12">
             <div className="d-flex align-items-center mb-4">
               <i className="bi bi-clipboard-pulse fs-1 me-2 text-blue align-middle"></i>
-              <h2 className="mb-0 text-blue">{idExercicio ? 'Atualização' : 'Cadastro'} de Exercicio</h2>
+              <h2 className="mb-0 text-blue">{idDieta ? 'Atualização' : 'Cadastro'}  de Exercicio</h2>
             </div>
-            {!idExercicio && <div className="input-group mb-3">
+            <div className="input-group mb-3">
               <Autocomplete
                 id="autocomplete-paciente"
                 placeholder="Digite o nome do paciente"
@@ -186,7 +191,7 @@ const Exercicios = () => {
               >
                 <i className="bi bi-search"></i>
               </button>
-            </div>}
+            </div>
 
             {pacienteData && pacienteData.pac_id && (
               <form className="mt-5" onSubmit={handleSubmit} id="form-exercicios">
@@ -195,7 +200,7 @@ const Exercicios = () => {
                     Exercicio de: {pacienteData && pacienteData.pac_nome}
                   </span>
                   <div className="d-flex">
-                    {idPaciente && (
+                    {idExercicio && (
                       <>
                         <button
                           type="button"
@@ -207,7 +212,7 @@ const Exercicios = () => {
                       </>
                     )}
                     <button
-                      disabled={!idPaciente}
+                      disabled={!idExercicio}
                       type="button"
                       className="btn btn-secondary me-2"
                       onClick={handleUpdate}
@@ -215,14 +220,14 @@ const Exercicios = () => {
                       <i className="bi bi-pencil"></i> Salvar Edição
                     </button>
                     <button
-                      disabled={!idPaciente}
+                      disabled={!idExercicio}
                       type="button"
                       className="btn btn-danger me-2"
                       onClick={handleDelete}
                     >
                       <i className="bi bi-trash"></i> Deletar
                     </button>
-                    {!idPaciente && (
+                    {!idExercicio && (
                       <button type="submit" className="btn btn-primary">
                         <i className="bi bi-save"></i> Criar
                       </button>

@@ -13,6 +13,7 @@ import { MedicamentosPage } from '../pages/Medicamentos/Medicamentos.page.jsx';
 import { ConsultaPage } from '../pages/Consulta/Consulta.page.jsx';
 import { HomePage } from '../pages/Home/Home.jsx';
 import { PrivateRoutes } from './PrivateRoutes.jsx';
+import Exercicios from '../pages/Exercicios/Exercicios.page.jsx';
 
 export const AppRoutes = () => {
 
@@ -36,11 +37,34 @@ export const AppRoutes = () => {
               <Toolbar/>
             </PrivateRoutes>
           }/>
-          <Route path="/cadastrar-dieta" element={
+          <Route path="/dietas" element={
             <PrivateRoutes>
               <Dietas />
             </PrivateRoutes>
           } />
+          <Route path="/pacientes/:idPaciente/dietas" element={
+            <PrivateRoutes>
+              <Dietas />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/dietas/:idDieta" element={
+            <PrivateRoutes>
+              <Dietas />
+            </PrivateRoutes>} />
+          <Route path="/exercicios" element={
+            <PrivateRoutes>
+              <Exercicios />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/exercicios" element={
+            <PrivateRoutes>
+              <Exercicios />
+            </PrivateRoutes>
+          } />
+          <Route path="/pacientes/:idPaciente/exercicios/:idExercicio" element={
+            <PrivateRoutes>
+              <Exercicios />
+            </PrivateRoutes>} />
           <Route path="/cadastrar-usuario" element={
             <PrivateRoutes>
               <Usuario />
@@ -71,6 +95,10 @@ export const AppRoutes = () => {
               <Exames />
             </PrivateRoutes>} />
           <Route path="/pacientes" element={
+            <PrivateRoutes>
+              <PacientesPage />
+            </PrivateRoutes>} />
+          <Route path="/pacientes/:pacienteId" element={
             <PrivateRoutes>
               <PacientesPage />
             </PrivateRoutes>} />
