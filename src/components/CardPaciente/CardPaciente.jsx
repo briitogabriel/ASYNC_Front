@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export const CardPaciente = ({className, paciente}) => {
+export const CardPaciente = ({className = '', paciente = ''}) => {
 
     const getAge = () => {
         const today = new Date();

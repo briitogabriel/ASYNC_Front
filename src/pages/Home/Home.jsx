@@ -79,10 +79,10 @@ export const HomePage = () => {
     const qtdMed = medicamentos.length;
 
     const dietas = await DietaService.listarDietas();
-    const qtdDietas = dietas.length;
+    const qtdDietas = dietas.data.length;
 
     const exercicios = await ExercicioService.listarExercicios();
-    const qtdExercicios = exercicios.length;
+    const qtdExercicios = exercicios.data.length;
 
     setEstatistica({
       pacientes: qtdPacientes ? qtdPacientes : 0,

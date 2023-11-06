@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const CardUsuario = ({className, usuario}) => {
+export const CardUsuario = ({className = '', usuario = ''}) => {
     return (
         <div className={className}>
             <div className="card">
