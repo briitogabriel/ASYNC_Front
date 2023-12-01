@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const detalharExame = (id) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames/${id}`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/exames/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -17,7 +17,7 @@ const detalharExame = (id) => {
 };
 
 const salvarExame = (exame) => {  
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames`, exame, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/exames`, exame, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -33,7 +33,7 @@ const salvarExame = (exame) => {
 };
 
 const atualizarExame = (exame) => {  
-  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames/${exame.exa_id}`, exame, {
+  return axios.put(`${import.meta.env.VITE_APP_PORT}/api/exames/${exame.exa_id}`, exame, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -49,7 +49,7 @@ const atualizarExame = (exame) => {
 };
 
 const deletarExame = (id) => {
-  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames/${id}`, {
+  return axios.delete(`${import.meta.env.VITE_APP_PORT}/api/exames/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -64,7 +64,7 @@ const deletarExame = (id) => {
 };
 
 const listarExamesPorPaciente = (id) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}/exames`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}/exames`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -79,7 +79,7 @@ const listarExamesPorPaciente = (id) => {
 };
 
 const listarExames = () => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exames`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/exames`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }

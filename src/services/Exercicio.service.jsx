@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const criarExercicio = (exercicio) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios`, exercicio, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/exercicios`, exercicio, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -18,7 +18,7 @@ const criarExercicio = (exercicio) => {
 };
 
 const buscarExerciciosPorPaciente = (nomePaciente) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${nomePaciente}`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/exercicios/${nomePaciente}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -34,7 +34,7 @@ const buscarExerciciosPorPaciente = (nomePaciente) => {
 };
 
 const atualizarExercicio = (exercicioData, idExercicio) => {
-  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, exercicioData, {
+  return axios.put(`${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, exercicioData, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -50,7 +50,7 @@ const atualizarExercicio = (exercicioData, idExercicio) => {
 };
 
 const deletarExercicio = (idExercicio) => {
-  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, {
+  return axios.delete(`${import.meta.env.VITE_APP_PORT}/api/exercicios/${idExercicio}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -66,7 +66,7 @@ const deletarExercicio = (idExercicio) => {
 };
 
 const listarExercicios = () => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/exercicios/admin`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/exercicios/admin`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     },

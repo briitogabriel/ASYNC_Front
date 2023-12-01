@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from "./LocalStorage.service";
 
 const login = (usuario) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/login`, usuario, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/usuarios/login`, usuario, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -16,7 +16,7 @@ const login = (usuario) => {
 };
 
 const getUsers = () => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/usuarios`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -31,7 +31,7 @@ const getUsers = () => {
 };
 
 const createUser = (data) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios`, data, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/usuarios`, data, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -46,7 +46,7 @@ const createUser = (data) => {
 };
 
 const getUserById = (usuarioId) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -61,7 +61,7 @@ const getUserById = (usuarioId) => {
 };
 
 const deleteUser = (id) => {
-  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
+  return axios.delete(`${import.meta.env.VITE_APP_PORT}/api/usuarios/${usuarioId}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -76,7 +76,7 @@ const deleteUser = (id) => {
 };
 
 const updateUser = (usuarioId, data) => {
-  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/consultas/${usuarioId}`, data, {
+  return axios.put(`${import.meta.env.VITE_APP_PORT}/api/consultas/${usuarioId}`, data, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -92,7 +92,7 @@ const updateUser = (usuarioId, data) => {
 };
 
 const resetarSenha = (data) => {
-  return axios.patch(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/usuarios/resetar-senha`, data, {
+  return axios.patch(`${import.meta.env.VITE_APP_PORT}/api/usuarios/resetar-senha`, data, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')

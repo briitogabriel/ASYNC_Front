@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const salvarMedicamento = (medicamento) => {
-    return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos`, medicamento, {
+    return axios.post(`${import.meta.env.VITE_APP_PORT}/api/medicamentos`, medicamento, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': LocalStorageService.get('token')
@@ -18,7 +18,7 @@ const salvarMedicamento = (medicamento) => {
 };
 
 const detalharMedicamento = (id) => {
-    return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos/${id}`, {
+    return axios.get(`${import.meta.env.VITE_APP_PORT}/api/medicamentos/${id}`, {
         headers: {
             'Authorization': LocalStorageService.get('token')
           }
@@ -33,7 +33,7 @@ const detalharMedicamento = (id) => {
 }
 
 const atualizarMedicamento = (medicamento) => {
-    return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos/${medicamento.med_id}`, medicamento, {
+    return axios.put(`${import.meta.env.VITE_APP_PORT}/api/medicamentos/${medicamento.med_id}`, medicamento, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': LocalStorageService.get('token')
@@ -49,7 +49,7 @@ const atualizarMedicamento = (medicamento) => {
 };
 
 const deletarMedicamento = (id) => {
-    return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos/${id}`, medicamento, {
+    return axios.delete(`${import.meta.env.VITE_APP_PORT}/api/medicamentos/${id}`, medicamento, {
         headers: {
             'Authorization': LocalStorageService.get('token')
           }
@@ -64,7 +64,7 @@ const deletarMedicamento = (id) => {
 };
 
 const listarMedicamentosPorPaciente = (user) => {
-    return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos/?userName=${user}`, {
+    return axios.get(`${import.meta.env.VITE_APP_PORT}/api/medicamentos/?userName=${user}`, {
       headers: {
         'Authorization': LocalStorageService.get('token')
       }
@@ -78,7 +78,7 @@ const listarMedicamentosPorPaciente = (user) => {
     });
   };
 const listarMedicamentos = () => {
-    return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/medicamentos`, {
+    return axios.get(`${import.meta.env.VITE_APP_PORT}/api/medicamentos`, {
         headers: {
             'Authorization': LocalStorageService.get('token')
           }

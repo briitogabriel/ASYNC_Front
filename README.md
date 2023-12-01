@@ -35,6 +35,10 @@ O objetivo principal é oferecer uma plataforma que simplifique processos de ate
 
 Após a instalação e configuração, acesse a aplicação pelo navegador usando o endereço `http://localhost:5173/usuarios/login`. Faça o login com as credenciais padrão (e-mail: `admin@asynclab.com`, senha: `admin123`)
 
+## TESTE
+
+Você pode testar a aplicação em funcionamento aqui: https://asynclab.netlify.app/ 
+
 ## Melhorias a serem aplicadas
 - Deveríamos implementar a inclusão da Foto do paciente para agilizar atendimentos emergenciais em que o paciente não estivesse responsivo;
 - Juntamente com a foto, implementar uma busca por reconhecimento facial onde pudesse ser usado um scanner pra buscar no sistema o paciente a ser atendido;

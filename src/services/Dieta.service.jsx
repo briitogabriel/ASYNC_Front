@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LocalStorageService } from './LocalStorage.service';
 
 const criarDieta = (dieta) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas`, dieta, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/dietas`, dieta, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -18,7 +18,7 @@ const criarDieta = (dieta) => {
 };
 
 const buscarDietasPorPaciente = (nomePaciente) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${nomePaciente}`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/dietas/${nomePaciente}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -34,7 +34,7 @@ const buscarDietasPorPaciente = (nomePaciente) => {
 };
 
 const atualizarDieta = (dietaData, idDieta) => {
-  return axios.put(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, dietaData, {
+  return axios.put(`${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, dietaData, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -50,7 +50,7 @@ const atualizarDieta = (dietaData, idDieta) => {
 };
 
 const deletarDieta = (idDieta) => {
-  return axios.delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, {
+  return axios.delete(`${import.meta.env.VITE_APP_PORT}/api/dietas/${idDieta}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': LocalStorageService.get('token')
@@ -66,7 +66,7 @@ const deletarDieta = (idDieta) => {
 };
 
 const listarDietas = () => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/dietas/admin`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/dietas/admin`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     },

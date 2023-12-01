@@ -3,7 +3,7 @@ import { LocalStorageService } from './LocalStorage.service';
 
 
 const criarPacientes = (data) => {
-  return axios.post(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes`, data, {
+  return axios.post(`${import.meta.env.VITE_APP_PORT}/api/pacientes`, data, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -18,7 +18,7 @@ const criarPacientes = (data) => {
 };
 
 const buscarPacientes = () => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/pacientes`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
@@ -33,7 +33,7 @@ const buscarPacientes = () => {
 };
 
 const detalharPaciente = (id) => {
-  return axios.get(`http://localhost:${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}`, {
+  return axios.get(`${import.meta.env.VITE_APP_PORT}/api/pacientes/${id}`, {
     headers: {
       'Authorization': LocalStorageService.get('token')
     }
