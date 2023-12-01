@@ -1,6 +1,6 @@
 ## Async Medical
 
-> Projeto desenvolvido usando React, Bootstrap e Json-Server.
+> Projeto desenvolvido usando React-Vite e Bootstrap, integrado à API própria em Express/Node e banco de dados PostgreSQL (vide repositório [ASYNC_Back](https://github.com/briitogabriel/ASYNC_Back)).
 
 O Async é um software de gestão médica desenvolvida para auxiliar na administração e organização de hospitais.
 
